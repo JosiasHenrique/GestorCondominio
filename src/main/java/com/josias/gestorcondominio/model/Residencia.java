@@ -66,6 +66,13 @@ public class Residencia {
     public List<MesDevido> getMesesDevidos() {
         return mesesDevidos;
     }
-    
+
+    public void addMorador(Morador morador) {
+        moradores.add(morador);
+    }
+
+    public void addMes(MesDevido mes) {
+        mesesDevidos.add(mes);
+    }
     
 }
