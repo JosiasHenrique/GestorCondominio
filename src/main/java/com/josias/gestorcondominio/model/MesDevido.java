@@ -13,6 +13,7 @@ public class MesDevido {
         this.residencia = residencia;
     }
 
+    
     public int getId() {
         return id;
     }
