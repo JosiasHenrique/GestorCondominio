@@ -11,8 +11,9 @@ public class Residencia {
     private List<Morador> moradores = new ArrayList<>();
     private List<MesDevido> mesesDevidos = new ArrayList<>();
 
-    public Residencia(int id, int numero, String rua, String cep, Proprietario proprietario) {
-        this.id = id;
+    public Residencia(){}
+    
+    public Residencia(int numero, String rua, String cep, Proprietario proprietario) {
         this.numero = numero;
         this.rua = rua;
         this.cep = cep;

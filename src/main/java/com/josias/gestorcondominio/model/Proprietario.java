@@ -8,9 +8,11 @@ public class Proprietario extends Pessoa {
     
     private List<Residencia> propriedades = new ArrayList<>();
 
-    public Proprietario(int id, int idade, String nome, String rg, String cpf) {
-        super(id, idade, nome, rg, cpf);
+    public Proprietario(int idade, String nome, String rg, String cpf) {
+        super(idade, nome, rg, cpf);
     }
+
+    
     
     public List<Residencia> getPropriedades() {
         return propriedades;

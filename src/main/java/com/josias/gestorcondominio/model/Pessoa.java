@@ -7,8 +7,7 @@ public abstract class Pessoa {
     
     public Pessoa(){}
 
-    public Pessoa(int id, int idade, String nome, String rg, String cpf) {
-        this.id = id;
+    public Pessoa(int idade, String nome, String rg, String cpf) {
         this.idade = idade;
         this.nome = nome;
         this.rg = rg;

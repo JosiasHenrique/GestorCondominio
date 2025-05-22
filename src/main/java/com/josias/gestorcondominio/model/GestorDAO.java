@@ -5,20 +5,24 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class GestorDAO {
 
     private static GestorDAO instancia;
+    private static final Logger logger = Logger.getLogger(GestorDAO.class.getName());
 
     private static final String URL = "jdbc:mysql://localhost:3306/condominio_db";
     private static final String USER = "root";
     private static final String PASSWORD = "1234";
 
-    
     private GestorDAO() {
-        
+        if (URL == null || USER == null || PASSWORD == null) {
+            throw new IllegalStateException("Configurações do banco de dados não foram definidas.");
+        }
     }
 
     public static GestorDAO getInstance() {
@@ -26,27 +30,126 @@ public class GestorDAO {
             synchronized (GestorDAO.class) {
                 if (instancia == null) {
                     instancia = new GestorDAO();
+                    logger.info("Instância de GestorDAO criada.");
                 }
             }
         }
         return instancia;
     }
 
-    //Verificar se esse metodo fere o padrao singleton
     public Connection getConnection() throws SQLException {
+        logger.info("Tentando conectar ao banco de dados...");
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
-    
-    public List<Proprietario> findAll() throws SQLException {
-        List<Proprietario> proprietarios = new ArrayList<>();
-        String sql = "SELECT * FROM pessoa";
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+
+    public List<Residencia> findAllResidencias() throws SQLException {
+        logger.info("Buscando todas as residências...");
+        List<Residencia> residencias = new ArrayList<>();
+        String sql = "SELECT id, rua, numero, cep FROM Residencia";
+
+        try {
+
+            Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
             while (rs.next()) {
-                proprietarios.add(new Proprietario(rs.getInt("id"), rs.getInt("idade"), rs.getString("nome"), rs.getString("rg"), rs.getString("cpf")));
+                Residencia residencia = new Residencia();
+                residencia.setId(rs.getInt("id"));
+                residencia.setRua(rs.getString("rua"));
+                residencia.setNumero(rs.getInt("numero"));
+                residencia.setCep(rs.getString("cep"));
+                residencias.add(residencia);
+            }
+
+        } catch (SQLException e) {
+            logger.severe("Erro ao buscar residências: " + e.getMessage());
+            throw e;
+        }
+
+        return residencias;
+    }
+
+    public int inserirProprietario(Proprietario proprietario) throws SQLException {
+        String sql = "INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) VALUES (?, ?, ?, ?, 'Proprietario', NULL)";
+
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, proprietario.getNome());
+            stmt.setInt(2, proprietario.getIdade());
+            stmt.setString(3, proprietario.getRg());
+            stmt.setString(4, proprietario.getCpf());
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Falha ao inserir proprietário, nenhuma linha afetada.");
+            }
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int id = generatedKeys.getInt(1);
+                    proprietario.setId(id);
+                    return id;
+                } else {
+                    throw new SQLException("Falha ao obter ID do proprietário inserido.");
+                }
             }
         }
-        return proprietarios;
     }
+
+    public int inserirResidencia(Residencia residencia, int idProprietario) throws SQLException {
+        String sql = "INSERT INTO Residencia (rua, numero, cep, proprietario_id) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, residencia.getRua());
+            stmt.setInt(2, residencia.getNumero());
+            stmt.setString(3, residencia.getCep());
+            stmt.setInt(4, idProprietario);
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Falha ao inserir residência, nenhuma linha afetada.");
+            }
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int idResidencia = generatedKeys.getInt(1);
+                    residencia.setId(idResidencia);
+                    return idResidencia;
+                } else {
+                    throw new SQLException("Falha ao obter ID da residência inserida.");
+                }
+            }
+        }
+    }
+
+    public int inserirMorador(Morador morador, int residenciaId) throws SQLException {
+        String sql = "INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) VALUES (?, ?, ?, ?, 'Morador', ?)";
+
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, morador.getNome());
+            stmt.setInt(2, morador.getIdade());
+            stmt.setString(3, morador.getRg());
+            stmt.setString(4, morador.getCpf());
+            stmt.setInt(5, residenciaId);
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Falha ao inserir morador, nenhuma linha afetada.");
+            }
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int id = generatedKeys.getInt(1);
+                    morador.setId(id);
+                    return id;
+                } else {
+                    throw new SQLException("Falha ao obter ID do morador inserido.");
+                }
+            }
+        }
+    }
+
 }
