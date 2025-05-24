@@ -18,9 +18,10 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
 
     @Override
     public void inserirResidencia(Residencia residencia, int idProprietario) throws SQLException {
-        String sql = "INSERT INTO Residencia (rua, numero, cep, proprietario_id) VALUES (?, ?, ?, ?)";
-        try {
 
+        String sql = "INSERT INTO Residencia (rua, numero, cep, proprietario_id) VALUES (?, ?, ?, ?)";
+
+        try {
             Connection conn = ConnectionManager.getInstance().getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -114,4 +115,5 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
             throw e;
         }
     }
+
 }

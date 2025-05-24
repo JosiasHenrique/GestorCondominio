@@ -4,6 +4,8 @@ public class MesDevido {
     private int id, mes, ano;
     private double valor;
     private Residencia residencia;
+    
+    public MesDevido(){}
 
     public MesDevido(int id, int mes, int ano, double valor, Residencia residencia) {
         this.id = id;
@@ -12,7 +14,6 @@ public class MesDevido {
         this.valor = valor;
         this.residencia = residencia;
     }
-
     
     public int getId() {
         return id;

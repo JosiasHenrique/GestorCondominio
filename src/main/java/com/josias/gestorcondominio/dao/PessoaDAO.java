@@ -3,6 +3,7 @@ package com.josias.gestorcondominio.dao;
 import com.josias.gestorcondominio.model.Morador;
 import com.josias.gestorcondominio.model.Proprietario;
 import java.sql.SQLException;
+import java.util.List;
 
 public interface PessoaDAO {
   
@@ -12,4 +13,7 @@ public interface PessoaDAO {
     void atualizarMorador(Morador morador) throws SQLException;
     void excluirMorador(int idMorador) throws SQLException;
     void excluirProprietario(int idProprietario) throws SQLException;
+    List<Morador> listarMoradoresPorResidencia(int residenciaId) throws SQLException;
+    Proprietario obterProprietarioPorResidencia(int residenciaId) throws SQLException;
+      
 }

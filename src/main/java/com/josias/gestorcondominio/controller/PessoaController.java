@@ -8,11 +8,14 @@ import com.josias.gestorcondominio.model.Morador;
 import com.josias.gestorcondominio.model.Proprietario;
 import com.josias.gestorcondominio.model.Residencia;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class PessoaController {
 
     private final PessoaDAO pessoaDAO;
     private final ResidenciaDAO residenciaDAO;
+    private static final Logger logger = Logger.getLogger(PessoaController.class.getName());
 
     public PessoaController() {
         this.pessoaDAO = new PessoaDAOImpl();
@@ -55,8 +58,18 @@ public class PessoaController {
         pessoaDAO.atualizarMorador(m);
     }
 
+    public List<Morador> listarMoradoresPorResidencia(int residenciaId) throws SQLException {
+        logger.info("Listando moradores da residência com ID: " + residenciaId);
+        return pessoaDAO.listarMoradoresPorResidencia(residenciaId);
+    }
+
     public void excluirMorador(int idMorador) throws SQLException {
         pessoaDAO.excluirMorador(idMorador);
+    }
+
+    public Proprietario obterProprietarioPorResidencia(int residenciaId) throws SQLException {
+        logger.info("Obtendo proprietário da residência com ID: " + residenciaId);
+        return pessoaDAO.obterProprietarioPorResidencia(residenciaId);
     }
 
 }
