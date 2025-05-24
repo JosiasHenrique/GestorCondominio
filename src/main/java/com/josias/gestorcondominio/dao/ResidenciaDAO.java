@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface ResidenciaDAO {
     
-    void inserirResidencia(Residencia r, int idProprietario) throws SQLException;
+    boolean inserirResidencia(Residencia r, int idProprietario) throws SQLException;
     List<Residencia> findAllResidencias() throws SQLException;
-    void atualizarResidencia(Residencia r) throws SQLException;
-    void excluirResidencia(int idResidencia) throws SQLException;
+    boolean atualizarResidencia(Residencia r) throws SQLException;
+    boolean excluirResidencia(int idResidencia) throws SQLException;
 }

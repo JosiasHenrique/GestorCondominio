@@ -17,7 +17,7 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
     private static final Logger logger = Logger.getLogger(ResidenciaDAOImpl.class.getName());
 
     @Override
-    public void inserirResidencia(Residencia residencia, int idProprietario) throws SQLException {
+    public boolean inserirResidencia(Residencia residencia, int idProprietario) throws SQLException {
 
         String sql = "INSERT INTO Residencia (rua, numero, cep, proprietario_id) VALUES (?, ?, ?, ?)";
 
@@ -31,12 +31,10 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
             stmt.setInt(4, idProprietario);
 
             int affectedRows = stmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("Falha ao inserir residência, nenhuma linha afetada.");
-            }
+            return affectedRows > 0;
         } catch (SQLException e) {
             logger.log(Level.SEVERE.SEVERE, "Erro ao inserir residência", e);
-            throw e;
+            return false;
         }
     }
 
@@ -64,7 +62,6 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
                 if (!rs.wasNull()) {
                     Proprietario p = new Proprietario();
                     p.setId(propId);
-                    r.setProprietario(p);
                 }
                 residencias.add(r);
             }
@@ -76,7 +73,7 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
     }
 
     @Override
-    public void atualizarResidencia(Residencia residencia) throws SQLException {
+    public boolean atualizarResidencia(Residencia residencia) throws SQLException {
         String sql = "UPDATE Residencia SET rua = ?, numero = ?, cep = ?, proprietario_id = ? WHERE id = ?";
         try {
 
@@ -90,29 +87,25 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
             stmt.setInt(5, residencia.getId());
 
             int updated = stmt.executeUpdate();
-            if (updated == 0) {
-                throw new SQLException("Nenhuma residência encontrada para o ID: " + residencia.getId());
-            }
+           return updated > 0;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao atualizar residência", e);
-            throw e;
+            return false;
         }
     }
 
     @Override
-    public void excluirResidencia(int idResidencia) throws SQLException {
+    public boolean excluirResidencia(int idResidencia) throws SQLException {
         String sql = "DELETE FROM Residencia WHERE id = ?";
         try {
             Connection conn = ConnectionManager.getInstance().getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, idResidencia);
             int deleted = stmt.executeUpdate();
-            if (deleted == 0) {
-                throw new SQLException("Não foi possível excluir; ID inválido: " + idResidencia);
-            }
+            return deleted > 0;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao excluir residência", e);
-            throw e;
+            return false;
         }
     }
 

@@ -18,7 +18,7 @@ public class PessoaDAOImpl implements PessoaDAO {
     private static final Logger logger = Logger.getLogger(PessoaDAOImpl.class.getName());
 
     @Override
-    public void inserirProprietario(Proprietario proprietario) throws SQLException {
+    public boolean inserirProprietario(Proprietario proprietario) throws SQLException {
         String sql = "INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) "
                 + "VALUES (?, ?, ?, ?, 'Proprietario', NULL)";
         try {
@@ -32,17 +32,15 @@ public class PessoaDAOImpl implements PessoaDAO {
             stmt.setString(4, proprietario.getCpf());
 
             int affectedRows = stmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("Falha ao inserir proprietário, nenhuma linha afetada.");
-            }
+            return affectedRows > 0;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao inserir proprietário", e);
-            throw e;
+            return false;
         }
     }
 
     @Override
-    public void inserirMorador(Morador morador, int residenciaId) throws SQLException {
+    public boolean inserirMorador(Morador morador, int residenciaId) throws SQLException {
         String sql = "INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) "
                 + "VALUES (?, ?, ?, ?, 'Morador', ?)";
         try {
@@ -57,17 +55,15 @@ public class PessoaDAOImpl implements PessoaDAO {
             stmt.setInt(5, residenciaId);
 
             int affectedRows = stmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("Falha ao inserir morador, nenhuma linha afetada.");
-            }
+            return affectedRows > 0;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao inserir morador", e);
-            throw e;
+            return false;
         }
     }
 
     @Override
-    public void atualizarProprietario(Proprietario proprietario) throws SQLException {
+    public boolean atualizarProprietario(Proprietario proprietario) throws SQLException {
         String sql = "UPDATE Pessoa SET nome = ?, idade = ?, rg = ?, cpf = ? "
                 + "WHERE id = ? AND tipo = 'Proprietario'";
         try {
@@ -81,17 +77,15 @@ public class PessoaDAOImpl implements PessoaDAO {
             stmt.setInt(5, proprietario.getId());
 
             int updated = stmt.executeUpdate();
-            if (updated == 0) {
-                throw new SQLException("Nenhum proprietário encontrado para o ID: " + proprietario.getId());
-            }
+            return updated > 0;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao atualizar proprietário", e);
-            throw e;
+            return false;
         }
     }
 
     @Override
-    public void atualizarMorador(Morador morador) throws SQLException {
+    public boolean atualizarMorador(Morador morador) throws SQLException {
         String sql = "UPDATE Pessoa SET nome = ?, idade = ?, rg = ?, cpf = ?, residencia_id = ? "
                 + "WHERE id = ? AND tipo = 'Morador'";
         try {
@@ -107,17 +101,15 @@ public class PessoaDAOImpl implements PessoaDAO {
             stmt.setInt(6, morador.getId());
 
             int updated = stmt.executeUpdate();
-            if (updated == 0) {
-                throw new SQLException("Nenhum morador encontrado para o ID: " + morador.getId());
-            }
+            return updated > 0;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao atualizar morador", e);
-            throw e;
+            return false;
         }
     }
 
     @Override
-    public void excluirMorador(int idMorador) throws SQLException {
+    public boolean excluirMorador(int idMorador) throws SQLException {
         String sql = "DELETE FROM Pessoa WHERE id = ? AND tipo = 'Morador'";
         try {
 
@@ -126,17 +118,15 @@ public class PessoaDAOImpl implements PessoaDAO {
 
             stmt.setInt(1, idMorador);
             int deleted = stmt.executeUpdate();
-            if (deleted == 0) {
-                throw new SQLException("Não foi possível excluir morador; ID inválido: " + idMorador);
-            }
+            return deleted > 0;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao excluir morador", e);
-            throw e;
+            return false;
         }
     }
 
     @Override
-    public void excluirProprietario(int idProprietario) throws SQLException {
+    public boolean excluirProprietario(int idProprietario) throws SQLException {
         String sql = "DELETE FROM Pessoa WHERE id = ? AND tipo = 'Proprietario'";
         try {
 
@@ -145,12 +135,10 @@ public class PessoaDAOImpl implements PessoaDAO {
 
             stmt.setInt(1, idProprietario);
             int deleted = stmt.executeUpdate();
-            if (deleted == 0) {
-                throw new SQLException("Não foi possível excluir proprietário; ID inválido: " + idProprietario);
-            }
+            return deleted > 0;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao excluir proprietário", e);
-            throw e;
+            return false;
         }
     }
 

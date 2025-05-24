@@ -17,7 +17,7 @@ public class MesDevidoDAOImpl implements MesDevidoDAO {
     private static final Logger logger = Logger.getLogger(PessoaDAOImpl.class.getName());
 
     @Override
-    public void inserirMesDevido(MesDevido mesDevido) throws SQLException {
+    public boolean inserirMesDevido(MesDevido mesDevido) throws SQLException {
         String sql = "INSERT INTO mes_devido (residencia_id, mes, ano, valor) VALUES (?, ?, ?, ?)";
         try {
 
@@ -28,27 +28,27 @@ public class MesDevidoDAOImpl implements MesDevidoDAO {
             stmt.setInt(2, mesDevido.getMes());
             stmt.setInt(3, mesDevido.getAno());
             stmt.setDouble(4, mesDevido.getValor());
-            stmt.executeUpdate();
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao inserir mês devido", e);
-            throw e;
+            return false;
         }
     }
 
     @Override
-    public void excluirMesDevido(int id) throws SQLException {
+    public boolean excluirMesDevido(int id) throws SQLException {
         String sql = "DELETE FROM mes_devido WHERE id = ?";
         try {
             Connection conn = ConnectionManager.getInstance().getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);
             int deleted = stmt.executeUpdate();
-            if (deleted == 0) {
-                throw new SQLException("Não foi possível excluir; ID inválido: " + id);
-            }
+            return deleted > 0;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao excluir mês devido", e);
-            throw e;
+            return false;
         }
     }
 
@@ -56,7 +56,12 @@ public class MesDevidoDAOImpl implements MesDevidoDAO {
     public List<MesDevido> listarMesesDevidosPorResidencia(int residenciaId) throws SQLException {
         String sql = "SELECT id, residencia_id, mes, ano, valor FROM mes_devido WHERE residencia_id = ?";
         List<MesDevido> mesesDevidos = new ArrayList<>();
-        try (Connection conn = ConnectionManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        try {
+
+            Connection conn = ConnectionManager.getInstance().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
             stmt.setInt(1, residenciaId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -72,7 +77,7 @@ public class MesDevidoDAOImpl implements MesDevidoDAO {
                         Residencia r = new Residencia();
                         r.setId(resId);
                     }
-                    
+
                     mesesDevidos.add(mesDevido);
                 }
             }

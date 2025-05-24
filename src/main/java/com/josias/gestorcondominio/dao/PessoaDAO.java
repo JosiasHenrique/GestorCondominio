@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface PessoaDAO {
   
-    void inserirProprietario(Proprietario proprietario) throws SQLException;
-    void inserirMorador(Morador morador, int residenciaId) throws SQLException;
-    void atualizarProprietario(Proprietario proprietario) throws SQLException;
-    void atualizarMorador(Morador morador) throws SQLException;
-    void excluirMorador(int idMorador) throws SQLException;
-    void excluirProprietario(int idProprietario) throws SQLException;
+    boolean inserirProprietario(Proprietario proprietario) throws SQLException;
+    boolean inserirMorador(Morador morador, int residenciaId) throws SQLException;
+    boolean atualizarProprietario(Proprietario proprietario) throws SQLException;
+    boolean atualizarMorador(Morador morador) throws SQLException;
+    boolean excluirMorador(int idMorador) throws SQLException;
+    boolean excluirProprietario(int idProprietario) throws SQLException;
     List<Morador> listarMoradoresPorResidencia(int residenciaId) throws SQLException;
     Proprietario obterProprietarioPorResidencia(int residenciaId) throws SQLException;
       
