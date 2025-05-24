@@ -10,11 +10,15 @@ public class GestorCondominio {
 
         PessoaController pc = new PessoaController();
         
-        Proprietario p = new Proprietario(25, "João", "4565454", "8778685665");
+        Proprietario p = new Proprietario(20, "Talia Silva", "4565454", "8778685665");
+        
+        p.setId(12);
         
         //pc.inserirProprietario(p);
         
-        pc.excluirMorador(12);
+        //pc.excluirProprietario(13);
+        
+        //pc.atualizarProprietario(p);
       
     }
 }
