@@ -18,7 +18,7 @@ public class PessoaDAOImpl implements PessoaDAO {
     private static final Logger logger = Logger.getLogger(PessoaDAOImpl.class.getName());
 
     @Override
-    public boolean inserirProprietario(Proprietario proprietario) throws SQLException {
+    public boolean inserirProprietario(Proprietario proprietario) {
         String sql = "INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) "
                 + "VALUES (?, ?, ?, ?, 'Proprietario', NULL)";
         try {
@@ -40,7 +40,7 @@ public class PessoaDAOImpl implements PessoaDAO {
     }
 
     @Override
-    public boolean inserirMorador(Morador morador, int residenciaId) throws SQLException {
+    public boolean inserirMorador(Morador morador, int residenciaId) {
         String sql = "INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) "
                 + "VALUES (?, ?, ?, ?, 'Morador', ?)";
         try {
@@ -63,7 +63,7 @@ public class PessoaDAOImpl implements PessoaDAO {
     }
 
     @Override
-    public boolean atualizarProprietario(Proprietario proprietario) throws SQLException {
+    public boolean atualizarProprietario(Proprietario proprietario) {
         String sql = "UPDATE Pessoa SET nome = ?, idade = ?, rg = ?, cpf = ? "
                 + "WHERE id = ? AND tipo = 'Proprietario'";
         try {
@@ -85,7 +85,7 @@ public class PessoaDAOImpl implements PessoaDAO {
     }
 
     @Override
-    public boolean atualizarMorador(Morador morador) throws SQLException {
+    public boolean atualizarMorador(Morador morador) {
         String sql = "UPDATE Pessoa SET nome = ?, idade = ?, rg = ?, cpf = ?, residencia_id = ? "
                 + "WHERE id = ? AND tipo = 'Morador'";
         try {
@@ -109,7 +109,7 @@ public class PessoaDAOImpl implements PessoaDAO {
     }
 
     @Override
-    public boolean excluirMorador(int idMorador) throws SQLException {
+    public boolean excluirMorador(int idMorador) {
         String sql = "DELETE FROM Pessoa WHERE id = ? AND tipo = 'Morador'";
         try {
 
@@ -126,7 +126,7 @@ public class PessoaDAOImpl implements PessoaDAO {
     }
 
     @Override
-    public boolean excluirProprietario(int idProprietario) throws SQLException {
+    public boolean excluirProprietario(int idProprietario) {
         String sql = "DELETE FROM Pessoa WHERE id = ? AND tipo = 'Proprietario'";
         try {
 
@@ -143,7 +143,7 @@ public class PessoaDAOImpl implements PessoaDAO {
     }
 
     @Override
-    public List<Morador> listarMoradoresPorResidencia(int residenciaId) throws SQLException {
+    public List<Morador> listarMoradoresPorResidencia(int residenciaId) {
         String sql = "SELECT id, nome, idade, rg, cpf FROM Pessoa WHERE residencia_id = ? AND tipo = 'Morador'";
         List<Morador> moradores = new ArrayList<>();
 
@@ -164,14 +164,13 @@ public class PessoaDAOImpl implements PessoaDAO {
             }
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao listar moradores da residência com ID " + residenciaId, e);
-            throw e;
         }
 
         return moradores;
     }
 
     @Override
-    public Proprietario obterProprietarioPorResidencia(int residenciaId) throws SQLException {
+    public Proprietario obterProprietarioPorResidencia(int residenciaId) {
         String sql = "SELECT p.id, p.idade, p.nome, p.rg, p.cpf "
                 + "FROM Pessoa p "
                 + "JOIN Residencia r ON p.id = r.proprietario_id "
@@ -194,7 +193,6 @@ public class PessoaDAOImpl implements PessoaDAO {
             }
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao obter proprietário da residência com ID " + residenciaId, e);
-            throw e;
         }
 
         return proprietario;

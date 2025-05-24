@@ -17,7 +17,7 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
     private static final Logger logger = Logger.getLogger(ResidenciaDAOImpl.class.getName());
 
     @Override
-    public boolean inserirResidencia(Residencia residencia, int idProprietario) throws SQLException {
+    public boolean inserirResidencia(Residencia residencia, int idProprietario) {
 
         String sql = "INSERT INTO Residencia (rua, numero, cep, proprietario_id) VALUES (?, ?, ?, ?)";
 
@@ -39,7 +39,7 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
     }
 
     @Override
-    public List<Residencia> findAllResidencias() throws SQLException {
+    public List<Residencia> findAllResidencias() {
         String sql = "SELECT id, rua, numero, cep, proprietario_id FROM Residencia";
         List<Residencia> residencias = new ArrayList<>();
 
@@ -67,13 +67,12 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
             }
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao buscar residências", e);
-            throw e;
         }
         return residencias;
     }
 
     @Override
-    public boolean atualizarResidencia(Residencia residencia) throws SQLException {
+    public boolean atualizarResidencia(Residencia residencia) {
         String sql = "UPDATE Residencia SET rua = ?, numero = ?, cep = ?, proprietario_id = ? WHERE id = ?";
         try {
 
@@ -95,7 +94,7 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
     }
 
     @Override
-    public boolean excluirResidencia(int idResidencia) throws SQLException {
+    public boolean excluirResidencia(int idResidencia) {
         String sql = "DELETE FROM Residencia WHERE id = ?";
         try {
             Connection conn = ConnectionManager.getInstance().getConnection();

@@ -17,7 +17,7 @@ public class MesDevidoDAOImpl implements MesDevidoDAO {
     private static final Logger logger = Logger.getLogger(PessoaDAOImpl.class.getName());
 
     @Override
-    public boolean inserirMesDevido(MesDevido mesDevido) throws SQLException {
+    public boolean inserirMesDevido(MesDevido mesDevido) {
         String sql = "INSERT INTO mes_devido (residencia_id, mes, ano, valor) VALUES (?, ?, ?, ?)";
         try {
 
@@ -38,7 +38,7 @@ public class MesDevidoDAOImpl implements MesDevidoDAO {
     }
 
     @Override
-    public boolean excluirMesDevido(int id) throws SQLException {
+    public boolean excluirMesDevido(int id) {
         String sql = "DELETE FROM mes_devido WHERE id = ?";
         try {
             Connection conn = ConnectionManager.getInstance().getConnection();
@@ -53,7 +53,7 @@ public class MesDevidoDAOImpl implements MesDevidoDAO {
     }
 
     @Override
-    public List<MesDevido> listarMesesDevidosPorResidencia(int residenciaId) throws SQLException {
+    public List<MesDevido> listarMesesDevidosPorResidencia(int residenciaId) {
         String sql = "SELECT id, residencia_id, mes, ano, valor FROM mes_devido WHERE residencia_id = ?";
         List<MesDevido> mesesDevidos = new ArrayList<>();
 
@@ -83,7 +83,6 @@ public class MesDevidoDAOImpl implements MesDevidoDAO {
             }
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao listar meses devidos por residência", e);
-            throw e;
         }
         return mesesDevidos;
     }
