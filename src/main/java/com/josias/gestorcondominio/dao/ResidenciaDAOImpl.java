@@ -1,5 +1,6 @@
 package com.josias.gestorcondominio.dao;
 
+import com.josias.gestorcondominio.model.Proprietario;
 import com.josias.gestorcondominio.model.Residencia;
 import com.josias.gestorcondominio.persistence.ConnectionManager;
 import java.sql.Connection;
@@ -55,7 +56,15 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
                 r.setRua(rs.getString("rua"));
                 r.setNumero(rs.getInt("numero"));
                 r.setCep(rs.getString("cep"));
-                r.getProprietario().setId(rs.getInt("proprietario_id"));
+
+                int propId = rs.getInt("proprietario_id");
+
+                // Verifica se o campo proprietario_id é nulo antes de associá-lo
+                if (!rs.wasNull()) {
+                    Proprietario p = new Proprietario();
+                    p.setId(propId);
+                    r.setProprietario(p);
+                }
                 residencias.add(r);
             }
         } catch (SQLException e) {
