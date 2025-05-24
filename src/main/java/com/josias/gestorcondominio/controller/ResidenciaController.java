@@ -17,22 +17,19 @@ public class ResidenciaController {
         this.residenciaDAO = new ResidenciaDAOImpl();
     }
 
-    public void inserirResidencia(Residencia residencia, int idProprietario) throws SQLException {
-        residenciaDAO.inserirResidencia(residencia, idProprietario);
-        logger.info("Residência adicionada com sucesso!");
+    public boolean inserirResidencia(Residencia residencia, int idProprietario) throws SQLException {
+        return residenciaDAO.inserirResidencia(residencia, idProprietario);
     }
 
     public List<Residencia> listarResidencias() throws SQLException {
         return residenciaDAO.findAllResidencias();
     }
 
-    public void atualizarResidencia(Residencia residencia) throws SQLException {
-        residenciaDAO.atualizarResidencia(residencia);
-        logger.info("Residência atualizada com sucesso!");
+    public boolean atualizarResidencia(Residencia residencia) throws SQLException {
+       return residenciaDAO.atualizarResidencia(residencia);
     }
 
-    public void excluirResidencia(int idResidencia) throws SQLException {
-        residenciaDAO.excluirResidencia(idResidencia);
-        logger.info("Residência excluída com sucesso!");
+    public boolean excluirResidencia(int idResidencia) throws SQLException {
+        return residenciaDAO.excluirResidencia(idResidencia);
     }
 }

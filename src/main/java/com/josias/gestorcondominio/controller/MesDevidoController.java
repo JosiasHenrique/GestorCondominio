@@ -16,14 +16,12 @@ public class MesDevidoController {
         this.mesDevidoDAO = new MesDevidoDAOImpl();
     }
 
-    public void inserirMesDevido(MesDevido mesDevido) throws SQLException {
-        mesDevidoDAO.inserirMesDevido(mesDevido);
-        logger.info("Mês devido adicionado com sucesso!");
+    public boolean inserirMesDevido(MesDevido mesDevido) throws SQLException {
+        return mesDevidoDAO.inserirMesDevido(mesDevido);
     }
 
-    public void excluirMesDevido(int id) throws SQLException {
-        mesDevidoDAO.excluirMesDevido(id);
-        logger.info("Mês devido excluído com sucesso!");
+    public boolean excluirMesDevido(int id) throws SQLException {
+        return mesDevidoDAO.excluirMesDevido(id);
     }
 
     public List<MesDevido> listarMesesDevidosPorResidencia(int residenciaId) throws SQLException {

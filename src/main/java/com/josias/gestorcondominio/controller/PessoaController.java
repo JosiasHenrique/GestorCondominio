@@ -22,19 +22,19 @@ public class PessoaController {
         this.residenciaDAO = new ResidenciaDAOImpl();
     }
 
-    public void inserirProprietario(Proprietario p) throws SQLException {
-        pessoaDAO.inserirProprietario(p);
+    public boolean inserirProprietario(Proprietario p) throws SQLException {
+        return pessoaDAO.inserirProprietario(p);
     }
 
-    public void atualizarProprietario(Proprietario p) throws SQLException {
-        pessoaDAO.atualizarProprietario(p);
+    public boolean atualizarProprietario(Proprietario p) throws SQLException {
+        return pessoaDAO.atualizarProprietario(p);
     }
 
-    public void excluirProprietario(int idProprietario) throws SQLException {
-        pessoaDAO.excluirProprietario(idProprietario);
+    public boolean excluirProprietario(int idProprietario) throws SQLException {
+        return pessoaDAO.excluirProprietario(idProprietario);
     }
 
-    public void inserirMorador(Morador m, int residenciaId) throws SQLException {
+    public boolean inserirMorador(Morador m, int residenciaId) throws SQLException {
         Residencia r = residenciaDAO.findAllResidencias().stream()
                 .filter(res -> res.getId() == residenciaId)
                 .findFirst()
@@ -42,10 +42,10 @@ public class PessoaController {
         if (r == null) {
             throw new SQLException("Residência com ID " + residenciaId + " não encontrada.");
         }
-        pessoaDAO.inserirMorador(m, residenciaId);
+        return pessoaDAO.inserirMorador(m, residenciaId);
     }
 
-    public void atualizarMorador(Morador m) throws SQLException {
+    public boolean atualizarMorador(Morador m) throws SQLException {
         int resId = m.getResidencia().getId();
         Residencia r = residenciaDAO.findAllResidencias()
                 .stream()
@@ -55,7 +55,7 @@ public class PessoaController {
         if (r == null) {
             throw new SQLException("Residência com ID " + resId + " não encontrada.");
         }
-        pessoaDAO.atualizarMorador(m);
+        return pessoaDAO.atualizarMorador(m);
     }
 
     public List<Morador> listarMoradoresPorResidencia(int residenciaId) throws SQLException {
@@ -63,8 +63,8 @@ public class PessoaController {
         return pessoaDAO.listarMoradoresPorResidencia(residenciaId);
     }
 
-    public void excluirMorador(int idMorador) throws SQLException {
-        pessoaDAO.excluirMorador(idMorador);
+    public boolean excluirMorador(int idMorador) throws SQLException {
+        return pessoaDAO.excluirMorador(idMorador);
     }
 
     public Proprietario obterProprietarioPorResidencia(int residenciaId) throws SQLException {
