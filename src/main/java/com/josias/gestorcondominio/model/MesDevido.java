@@ -7,8 +7,7 @@ public class MesDevido {
     
     public MesDevido(){}
 
-    public MesDevido(int id, int mes, int ano, double valor, Residencia residencia) {
-        this.id = id;
+    public MesDevido(int mes, int ano, double valor, Residencia residencia) {
         this.mes = mes;
         this.ano = ano;
         this.valor = valor;

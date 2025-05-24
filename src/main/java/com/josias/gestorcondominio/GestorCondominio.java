@@ -1,33 +1,33 @@
 package com.josias.gestorcondominio;
 
-import com.josias.gestorcondominio.controller.PessoaController;
-import com.josias.gestorcondominio.controller.ResidenciaController;
-import com.josias.gestorcondominio.model.Morador;
-import com.josias.gestorcondominio.model.Proprietario;
+import com.josias.gestorcondominio.controller.MesDevidoController;
+import com.josias.gestorcondominio.model.MesDevido;
 import com.josias.gestorcondominio.model.Residencia;
+
 import java.sql.SQLException;
 import java.util.List;
 public class GestorCondominio {
 
     public static void main(String[] args) throws SQLException {
         
-        PessoaController pc = new PessoaController();
-        ResidenciaController rc = new ResidenciaController();
+        MesDevidoController mdc = new MesDevidoController();
+        Residencia r = new Residencia();
+        r.setId(1);
+        MesDevido mv = new MesDevido(3, 2025, 1000, r);
+        //mdc.inserirMesDevido(mv);
+        //mdc.excluirMesDevido(9);
         
-        List<Residencia> residencias = rc.listarResidencias();
+        List<MesDevido> meses = mdc.listarMesesDevidosPorResidencia(1);
         
-        System.out.println("Residencias: \n");
+         double total = 0.0;
         
-        for(Residencia r: residencias) {
-            System.out.println("Residencia: " + r.getId());
-            
-            System.out.println("Proprietario: " + pc.obterProprietarioPorResidencia(r.getId()).getNome());
-            System.out.println("Moradores: \n");
-            for(Morador m : pc.listarMoradoresPorResidencia(r.getId())) {
-                System.out.println("Morador: " + m.getId());
-                System.out.println("Nome: " + m.getNome());
-            }
+        for(MesDevido x: meses) {
+            total += x.getValor();
+            System.out.println("Mes: " + x.getMes());
+            System.out.println("Ano: " + x.getAno());
+            System.out.println("Valor: " + x.getValor());
         }
         
+        System.out.println("Total: R$" + total);
     }
 }
