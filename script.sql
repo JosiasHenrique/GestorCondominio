@@ -30,23 +30,58 @@ CREATE TABLE mes_devido (
     CONSTRAINT FK_MesDevido_Residencia FOREIGN KEY (residencia_id) REFERENCES Residencia(id)
 );
 
+-- ===== Inserções =====
+
 INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) VALUES
-('João Silva', 45, '123456789', '111.222.333-44', 'Proprietario', NULL);
+('João Silva', 45, 'MG123456', '123.456.789-00', 'Proprietario', NULL),
+('Maria Oliveira', 38, 'SP987654', '987.654.321-00', 'Proprietario', NULL),
+('Carlos Santos', 50, 'RJ112233', '111.222.333-44', 'Proprietario', NULL);
 
 INSERT INTO Residencia (rua, numero, cep, proprietario_id) VALUES
-('Rua das Flores',   100, '12345-678', 1),
-('Avenida Central',  200, '23456-789', 1);
+('Rua das Flores', 123, '30123-456', 1),
+('Avenida Brasil', 456, '40234-789', 2);
+
+UPDATE Pessoa SET residencia_id = 1 WHERE id = 1;
+UPDATE Pessoa SET residencia_id = 2 WHERE id = 2;
 
 INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) VALUES
-('Maria Souza',    34, '987654321', '222.333.444-55', 'Morador', 1),
-('Carlos Pereira', 30, '567890123', '333.444.555-66', 'Morador', 2);
+('Ana Silva', 20, 'MG654321', '321.654.987-00', 'Morador', 1),
+('Pedro Silva', 18, 'MG111222', '111.222.333-55', 'Morador', 1),
+('Lucas Silva', 25, 'MG333444', '333.444.555-66', 'Morador', 1),
+('Fernanda Oliveira', 22, 'SP555666', '555.666.777-88', 'Morador', 2),
+('Paula Oliveira', 19, 'SP777888', '777.888.999-00', 'Morador', 2),
+('Bruno Oliveira', 27, 'SP999000', '999.000.111-22', 'Morador', 2),
+('Marina Santos', 30, 'RJ123789', '123.789.456-00', 'Morador', 2),
+('Diego Santos', 21, 'RJ456123', '456.123.789-11', 'Morador', 1),
+('Carla Santos', 24, 'RJ789456', '789.456.123-22', 'Morador', 1),
+('Rafael Santos', 29, 'RJ159357', '159.357.258-33', 'Morador', 2);
 
 INSERT INTO mes_devido (residencia_id, mes, ano, valor) VALUES
-(1, 4, 2025, 500.00),  -- Casa 1 em débito Abril/2025
-(1, 5, 2025, 520.00),  -- Casa 1 em débito Maio/2025
-(2, 3, 2025, 480.00);  -- Casa 2 em débito Março/2025
+(1, 1, 2025, 500.00),
+(1, 2, 2025, 500.00),
+(1, 3, 2025, 500.00),
+(2, 1, 2025, 700.00),
+(2, 2, 2025, 700.00);
 
 -- ===== Verificações =====
+
  SELECT * FROM Pessoa;
  SELECT * FROM Residencia;
  SELECT * FROM mes_devido;
+ 
+ -- Comando para buscar todos os moradores de uma residência específica
+SELECT id, nome, idade, rg, cpf 
+FROM Pessoa 
+WHERE residencia_id = 1 AND tipo = 'Morador';
+
+-- Comando para buscar o proprietário de uma residência específica
+SELECT p.id, p.idade, p.nome, p.rg, p.cpf 
+FROM Pessoa p 
+JOIN Residencia r ON p.id = r.proprietario_id 
+WHERE r.id = 1;
+
+-- Comando para listar todas as residências com seus dados e o id do proprietário
+SELECT id, rua, numero, cep, proprietario_id FROM Residencia;
+
+-- Comando para listar todos os meses devidos associados a uma residência específica, filtrando pelo residencia_id
+SELECT id, residencia_id, mes, ano, valor FROM mes_devido WHERE residencia_id = 1;
