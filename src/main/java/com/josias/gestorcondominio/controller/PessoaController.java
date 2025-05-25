@@ -20,7 +20,7 @@ public class PessoaController {
 
     public boolean inserirProprietario(Proprietario p) {
 
-        if (p == null || p.getNome() == null || p.getNome().trim().isEmpty()
+        if (p.getNome() == null || p.getNome().trim().isEmpty()
                 || p.getCpf() == null || p.getCpf().trim().isEmpty()
                 || p.getRg() == null || p.getRg().trim().isEmpty()) {
 
@@ -61,7 +61,7 @@ public class PessoaController {
     }
 
     public boolean inserirMorador(Morador m, int residenciaId) {
-        if (m == null || m.getNome() == null || m.getNome().trim().isEmpty()
+        if (m.getNome() == null || m.getNome().trim().isEmpty()
                 || m.getCpf() == null || m.getCpf().trim().isEmpty()
                 || m.getRg() == null || m.getRg().trim().isEmpty()
                 || residenciaId <= 0) {
@@ -73,7 +73,7 @@ public class PessoaController {
     }
 
     public boolean atualizarMorador(Morador m) {
-        if (m == null || m.getNome() == null || m.getNome().trim().isEmpty()
+        if (m.getNome() == null || m.getNome().trim().isEmpty()
                 || m.getCpf() == null || m.getCpf().trim().isEmpty()
                 || m.getRg() == null || m.getRg().trim().isEmpty()) {
             logger.log(Level.WARNING, "Dados obrigatórios faltando (nome, cpf, rg) ou residência inválida.");

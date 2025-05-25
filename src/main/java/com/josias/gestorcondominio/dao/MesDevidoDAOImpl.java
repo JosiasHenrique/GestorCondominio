@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class MesDevidoDAOImpl implements MesDevidoDAO {
 
-    private static final Logger logger = Logger.getLogger(PessoaDAOImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(MesDevidoDAOImpl.class.getName());
 
     @Override
     public boolean inserirMesDevido(MesDevido mesDevido) {
