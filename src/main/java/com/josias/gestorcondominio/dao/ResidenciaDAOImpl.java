@@ -21,9 +21,8 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
 
         String sql = "INSERT INTO Residencia (rua, numero, cep, proprietario_id) VALUES (?, ?, ?, ?)";
 
-        try {
-            Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        try ( Connection conn = ConnectionManager.getInstance().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);){
 
             stmt.setString(1, residencia.getRua());
             stmt.setInt(2, residencia.getNumero());
@@ -43,10 +42,9 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
         String sql = "SELECT id, rua, numero, cep, proprietario_id FROM Residencia";
         List<Residencia> residencias = new ArrayList<>();
 
-        try {
+        try (Connection conn = ConnectionManager.getInstance().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);){
 
-            Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -74,10 +72,8 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
     @Override
     public boolean atualizarResidencia(Residencia residencia) {
         String sql = "UPDATE Residencia SET rua = ?, numero = ?, cep = ?, proprietario_id = ? WHERE id = ?";
-        try {
-
-            Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection conn = ConnectionManager.getInstance().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);){
 
             stmt.setString(1, residencia.getRua());
             stmt.setInt(2, residencia.getNumero());
@@ -96,9 +92,10 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
     @Override
     public boolean excluirResidencia(int idResidencia) {
         String sql = "DELETE FROM Residencia WHERE id = ?";
-        try {
-            Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        
+        try (Connection conn = ConnectionManager.getInstance().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);){
+            
             stmt.setInt(1, idResidencia);
             int deleted = stmt.executeUpdate();
             return deleted > 0;

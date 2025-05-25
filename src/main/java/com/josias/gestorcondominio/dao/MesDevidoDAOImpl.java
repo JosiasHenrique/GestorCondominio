@@ -19,10 +19,9 @@ public class MesDevidoDAOImpl implements MesDevidoDAO {
     @Override
     public boolean inserirMesDevido(MesDevido mesDevido) {
         String sql = "INSERT INTO mes_devido (residencia_id, mes, ano, valor) VALUES (?, ?, ?, ?)";
-        try {
-
-            Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        
+        try (Connection conn = ConnectionManager.getInstance().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);){
 
             stmt.setInt(1, mesDevido.getResidencia().getId());
             stmt.setInt(2, mesDevido.getMes());
@@ -40,9 +39,10 @@ public class MesDevidoDAOImpl implements MesDevidoDAO {
     @Override
     public boolean excluirMesDevido(int id) {
         String sql = "DELETE FROM mes_devido WHERE id = ?";
-        try {
-            Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        
+        try (Connection conn = ConnectionManager.getInstance().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);) {
+            
             stmt.setInt(1, id);
             int deleted = stmt.executeUpdate();
             return deleted > 0;
@@ -57,10 +57,9 @@ public class MesDevidoDAOImpl implements MesDevidoDAO {
         String sql = "SELECT id, residencia_id, mes, ano, valor FROM mes_devido WHERE residencia_id = ?";
         List<MesDevido> mesesDevidos = new ArrayList<>();
 
-        try {
+        try (Connection conn = ConnectionManager.getInstance().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);){
 
-            Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setInt(1, residenciaId);
             try (ResultSet rs = stmt.executeQuery()) {
