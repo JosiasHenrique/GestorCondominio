@@ -3,6 +3,7 @@ package com.josias.gestorcondominio.controller;
 import com.josias.gestorcondominio.dao.PessoaDAO;
 import com.josias.gestorcondominio.dao.PessoaDAOImpl;
 import com.josias.gestorcondominio.model.Morador;
+import com.josias.gestorcondominio.model.Pessoa;
 import com.josias.gestorcondominio.model.Proprietario;
 import java.util.Collections;
 import java.util.List;
@@ -106,6 +107,14 @@ public class PessoaController {
             return null;
         }
         return pessoaDAO.obterProprietarioPorResidencia(residenciaId);
+    }
+
+    public List<Pessoa> listarPessoas(String tipo) {
+        if (tipo == null || (!tipo.equalsIgnoreCase("Morador") && !tipo.equalsIgnoreCase("Proprietario"))) {
+            logger.log(Level.WARNING, "Tipo inválido: {0}", tipo);
+            return Collections.emptyList();
+        }
+        return pessoaDAO.listarPessoas(tipo);
     }
 
 }

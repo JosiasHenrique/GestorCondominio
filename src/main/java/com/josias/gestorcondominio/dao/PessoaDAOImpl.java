@@ -1,6 +1,7 @@
 package com.josias.gestorcondominio.dao;
 
 import com.josias.gestorcondominio.model.Morador;
+import com.josias.gestorcondominio.model.Pessoa;
 import com.josias.gestorcondominio.model.Proprietario;
 import com.josias.gestorcondominio.persistence.ConnectionManager;
 
@@ -197,4 +198,40 @@ public class PessoaDAOImpl implements PessoaDAO {
 
         return proprietario;
     }
+
+    @Override
+    public List<Pessoa> listarPessoas(String tipo) {
+        String sql = "SELECT id, nome, idade, rg, cpf, tipo FROM Pessoa WHERE tipo = ?";
+        List<Pessoa> pessoas = new ArrayList<>();
+
+        try (Connection conn = ConnectionManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, tipo);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Pessoa pessoa;
+
+                if ("Morador".equalsIgnoreCase(rs.getString("tipo"))) {
+                    pessoa = new Morador();
+                } else if ("Proprietario".equalsIgnoreCase(rs.getString("tipo"))) {
+                    pessoa = new Proprietario();
+                } else {
+                    throw new IllegalArgumentException("Tipo de pessoa desconhecido: " + tipo);
+                }
+
+                pessoa.setId(rs.getInt("id"));
+                pessoa.setNome(rs.getString("nome"));
+                pessoa.setIdade(rs.getInt("idade"));
+                pessoa.setRg(rs.getString("rg"));
+                pessoa.setCpf(rs.getString("cpf"));
+                pessoas.add(pessoa);
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Erro ao listar pessoas do tipo " + tipo, e);
+        }
+
+        return pessoas;
+    }
+
 }
