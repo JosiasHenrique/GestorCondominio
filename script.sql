@@ -1,3 +1,5 @@
+create database condominio_db;
+
 USE condominio_db;
 
 CREATE TABLE Pessoa (
@@ -14,12 +16,12 @@ CREATE TABLE Residencia (
     rua VARCHAR(200),
     numero INT,
     cep VARCHAR(200),
-    proprietario_id INT NOT NULL,
+    proprietario_id INT,
     CONSTRAINT FK_Residencia_Proprietario FOREIGN KEY (proprietario_id) REFERENCES Pessoa(id)
 );
 
 ALTER TABLE Pessoa ADD COLUMN residencia_id INT NULL,
-ADD CONSTRAINT FK_Pessoa_Residencia FOREIGN KEY (residencia_id) REFERENCES Residencia(id);
+ADD CONSTRAINT FK_Pessoa_Residencia FOREIGN KEY (residencia_id) REFERENCES Residencia(id) ON DELETE SET NULL;
 
 CREATE TABLE mes_devido (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -27,7 +29,7 @@ CREATE TABLE mes_devido (
     mes TINYINT NOT NULL CHECK (mes BETWEEN 1 AND 12),
     ano INT NOT NULL,
     valor DECIMAL(10,2) NOT NULL,
-    CONSTRAINT FK_MesDevido_Residencia FOREIGN KEY (residencia_id) REFERENCES Residencia(id)
+    CONSTRAINT FK_MesDevido_Residencia FOREIGN KEY (residencia_id) REFERENCES Residencia(id) ON DELETE CASCADE
 );
 
 -- ===== Inserções =====
@@ -40,9 +42,6 @@ INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) VALUES
 INSERT INTO Residencia (rua, numero, cep, proprietario_id) VALUES
 ('Rua das Flores', 123, '30123-456', 1),
 ('Avenida Brasil', 456, '40234-789', 2);
-
-UPDATE Pessoa SET residencia_id = 1 WHERE id = 1;
-UPDATE Pessoa SET residencia_id = 2 WHERE id = 2;
 
 INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) VALUES
 ('Ana Silva', 20, 'MG654321', '321.654.987-00', 'Morador', 1),

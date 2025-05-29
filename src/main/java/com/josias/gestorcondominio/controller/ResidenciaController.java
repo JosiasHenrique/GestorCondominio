@@ -17,7 +17,10 @@ public class ResidenciaController {
         this.residenciaDAO = new ResidenciaDAOImpl();
     }
 
-    public boolean inserirResidencia(Residencia residencia, int idProprietario) {
+    public boolean inserirResidencia(Residencia residencia) {
+        
+        int idProprietario = residencia.getProprietario().getId();
+        
         if (idProprietario <= 0) {
             logger.log(Level.WARNING, "ID do proprietário inválido: {0}", idProprietario);
             return false;
@@ -38,7 +41,7 @@ public class ResidenciaController {
             return false;
         }
 
-        return residenciaDAO.inserirResidencia(residencia, idProprietario);
+        return residenciaDAO.inserirResidencia(residencia);
     }
 
     public List<Residencia> listarResidencias() {

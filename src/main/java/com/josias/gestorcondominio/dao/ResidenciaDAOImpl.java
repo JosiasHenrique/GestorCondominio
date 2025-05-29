@@ -17,8 +17,9 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
     private static final Logger logger = Logger.getLogger(ResidenciaDAOImpl.class.getName());
 
     @Override
-    public boolean inserirResidencia(Residencia residencia, int idProprietario) {
+    public boolean inserirResidencia(Residencia residencia) {
 
+        int idProprietario = residencia.getProprietario().getId();
         String sql = "INSERT INTO Residencia (rua, numero, cep, proprietario_id) VALUES (?, ?, ?, ?)";
 
         try ( Connection conn = ConnectionManager.getInstance().getConnection();

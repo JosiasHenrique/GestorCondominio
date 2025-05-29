@@ -21,8 +21,7 @@ public class PessoaDAOImpl implements PessoaDAO {
     public boolean inserirProprietario(Proprietario proprietario) {
         String sql = "INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) "
                 + "VALUES (?, ?, ?, ?, 'Proprietario', NULL)";
-        try (Connection conn = ConnectionManager.getInstance().getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql);) {
+        try (Connection conn = ConnectionManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 
             stmt.setString(1, proprietario.getNome());
             stmt.setInt(2, proprietario.getIdade());
@@ -38,11 +37,11 @@ public class PessoaDAOImpl implements PessoaDAO {
     }
 
     @Override
-    public boolean inserirMorador(Morador morador, int residenciaId) {
+    public boolean inserirMorador(Morador morador) {
+        int residenciaId = morador.getResidencia().getId();
         String sql = "INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) "
                 + "VALUES (?, ?, ?, ?, 'Morador', ?)";
-        try (Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);){
+        try (Connection conn = ConnectionManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 
             stmt.setString(1, morador.getNome());
             stmt.setInt(2, morador.getIdade());
@@ -62,9 +61,8 @@ public class PessoaDAOImpl implements PessoaDAO {
     public boolean atualizarProprietario(Proprietario proprietario) {
         String sql = "UPDATE Pessoa SET nome = ?, idade = ?, rg = ?, cpf = ? "
                 + "WHERE id = ? AND tipo = 'Proprietario'";
-        
-        try (Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);){
+
+        try (Connection conn = ConnectionManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 
             stmt.setString(1, proprietario.getNome());
             stmt.setInt(2, proprietario.getIdade());
@@ -84,8 +82,7 @@ public class PessoaDAOImpl implements PessoaDAO {
     public boolean atualizarMorador(Morador morador) {
         String sql = "UPDATE Pessoa SET nome = ?, idade = ?, rg = ?, cpf = ?, residencia_id = ? "
                 + "WHERE id = ? AND tipo = 'Morador'";
-        try( Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);) {
+        try (Connection conn = ConnectionManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 
             stmt.setString(1, morador.getNome());
             stmt.setInt(2, morador.getIdade());
@@ -105,9 +102,8 @@ public class PessoaDAOImpl implements PessoaDAO {
     @Override
     public boolean excluirMorador(int idMorador) {
         String sql = "DELETE FROM Pessoa WHERE id = ? AND tipo = 'Morador'";
-        
-        try (Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);) {
+
+        try (Connection conn = ConnectionManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 
             stmt.setInt(1, idMorador);
             int deleted = stmt.executeUpdate();
@@ -120,13 +116,28 @@ public class PessoaDAOImpl implements PessoaDAO {
 
     @Override
     public boolean excluirProprietario(int idProprietario) {
-        String sql = "DELETE FROM Pessoa WHERE id = ? AND tipo = 'Proprietario'";
-        try (Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);){
+        String sqlDesvincular = "UPDATE Residencia SET proprietario_id = NULL WHERE proprietario_id = ?";
+        String sqlExcluir = "DELETE FROM Pessoa WHERE id = ? AND tipo = 'Proprietario'";
 
-            stmt.setInt(1, idProprietario);
-            int deleted = stmt.executeUpdate();
-            return deleted > 0;
+        try (Connection conn = ConnectionManager.getInstance().getConnection()) {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement stmtDesvincular = conn.prepareStatement(sqlDesvincular); PreparedStatement stmtExcluir = conn.prepareStatement(sqlExcluir)) {
+
+                stmtDesvincular.setInt(1, idProprietario);
+                stmtDesvincular.executeUpdate();
+
+                stmtExcluir.setInt(1, idProprietario);
+                int deleted = stmtExcluir.executeUpdate();
+
+                conn.commit();
+                return deleted > 0;
+
+            } catch (SQLException e) {
+                conn.rollback();
+                logger.log(Level.SEVERE, "Erro ao excluir proprietário", e);
+                return false;
+            }
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao excluir proprietário", e);
             return false;
@@ -138,9 +149,8 @@ public class PessoaDAOImpl implements PessoaDAO {
         String sql = "SELECT id, nome, idade, rg, cpf FROM Pessoa WHERE residencia_id = ? AND tipo = 'Morador'";
         List<Morador> moradores = new ArrayList<>();
 
-        try (Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);) {
-            
+        try (Connection conn = ConnectionManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+
             stmt.setInt(1, residenciaId);
             ResultSet rs = stmt.executeQuery();
 
@@ -168,9 +178,8 @@ public class PessoaDAOImpl implements PessoaDAO {
                 + "WHERE r.id = ?";
         Proprietario proprietario = null;
 
-        try (Connection conn = ConnectionManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);){
-            
+        try (Connection conn = ConnectionManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+
             stmt.setInt(1, residenciaId);
             ResultSet rs = stmt.executeQuery();
 

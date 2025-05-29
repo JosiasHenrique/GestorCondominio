@@ -7,7 +7,7 @@ import java.util.List;
 public interface PessoaDAO {
   
     boolean inserirProprietario(Proprietario proprietario);
-    boolean inserirMorador(Morador morador, int residenciaId);
+    boolean inserirMorador(Morador morador);
     boolean atualizarProprietario(Proprietario proprietario);
     boolean atualizarMorador(Morador morador);
     boolean excluirMorador(int idMorador);

@@ -60,7 +60,8 @@ public class PessoaController {
         return pessoaDAO.excluirProprietario(idProprietario);
     }
 
-    public boolean inserirMorador(Morador m, int residenciaId) {
+    public boolean inserirMorador(Morador m) {
+        int residenciaId = m.getResidencia().getId();
         if (m.getNome() == null || m.getNome().trim().isEmpty()
                 || m.getCpf() == null || m.getCpf().trim().isEmpty()
                 || m.getRg() == null || m.getRg().trim().isEmpty()
@@ -69,7 +70,7 @@ public class PessoaController {
             logger.log(Level.WARNING, "Dados obrigatórios faltando (nome, cpf, rg) ou residência inválida.");
             return false;
         }
-        return pessoaDAO.inserirMorador(m, residenciaId);
+        return pessoaDAO.inserirMorador(m);
     }
 
     public boolean atualizarMorador(Morador m) {
