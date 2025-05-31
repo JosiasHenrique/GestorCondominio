@@ -9,6 +9,7 @@ import com.josias.gestorcondominio.controller.PessoaController;
 import com.josias.gestorcondominio.model.MesDevido;
 import com.josias.gestorcondominio.model.Morador;
 import com.josias.gestorcondominio.model.Proprietario;
+import com.josias.gestorcondominio.model.Residencia;
 import com.josias.gestorcondominio.observer.Observer;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -23,7 +24,7 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
     private int residenciaId;
     private Proprietario proprietario = new Proprietario();
     PessoaController pc = PessoaController.getInstancia();
-    MesDevidoController mdc = new MesDevidoController();
+    MesDevidoController mdc = MesDevidoController.getInstancia();
 
     /**
      * Creates new form ResidenciaDetalhesView
@@ -32,6 +33,7 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
         this.residenciaId = residenciaId;
         initComponents();
         pc.registrarObservador(this);
+        mdc.registrarObservador(this);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         obterProprietario();
         carregarMoradores();
@@ -65,11 +67,11 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
         totalDividas = new javax.swing.JLabel();
         btnExcluirProprietario = new javax.swing.JButton();
         btnEditarProprietario = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnEditarMorador = new javax.swing.JButton();
+        btnNovoMorador = new javax.swing.JButton();
+        btnExcluirMorador = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        btnExcluirDivida = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -143,15 +145,40 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
             }
         });
 
-        jButton3.setText("Editar Morador");
+        btnEditarMorador.setText("Editar Morador");
+        btnEditarMorador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarMoradorActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Novo Morador");
+        btnNovoMorador.setText("Novo Morador");
+        btnNovoMorador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoMoradorActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Excluir Morador");
+        btnExcluirMorador.setText("Excluir Morador");
+        btnExcluirMorador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirMoradorActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Nova Dívida");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
-        jButton7.setText("Excluir Dívida");
+        btnExcluirDivida.setText("Excluir Dívida");
+        btnExcluirDivida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirDividaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -165,13 +192,13 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton7))
+                                .addComponent(btnExcluirDivida))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton4)
+                                .addComponent(btnNovoMorador)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3)
+                                .addComponent(btnEditarMorador)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5))
+                                .addComponent(btnExcluirMorador))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel2)
                                 .addComponent(jLabel6)
@@ -239,10 +266,10 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
+                    .addComponent(btnEditarMorador)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton4)
-                        .addComponent(jButton5)))
+                        .addComponent(btnNovoMorador)
+                        .addComponent(btnExcluirMorador)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -250,7 +277,7 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
-                    .addComponent(jButton7))
+                    .addComponent(btnExcluirDivida))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -274,9 +301,20 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
 
     private void btnExcluirProprietarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirProprietarioActionPerformed
         // TODO add your handling code here:
+
+        if (proprietario == null) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Não existe proprietário para ser excluído",
+                    "Aviso",
+                    javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
         int confirmacao = JOptionPane.showConfirmDialog(this,
                 "Tem certeza que deseja excluir este proprietário?\nEssa ação não pode ser desfeita.",
-                "Confirmação",
+                "Confirmação de Exclusão",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE);
 
@@ -288,6 +326,131 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
             }
         }
     }//GEN-LAST:event_btnExcluirProprietarioActionPerformed
+
+    private void btnNovoMoradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoMoradorActionPerformed
+        // TODO add your handling code here:
+        Residencia residencia = new Residencia();
+        residencia.setId(residenciaId);
+        Morador morador = new Morador();
+        morador.setResidencia(residencia);
+        MoradorFormView form = new MoradorFormView(morador);
+        form.setVisible(true);
+    }//GEN-LAST:event_btnNovoMoradorActionPerformed
+
+    private void btnEditarMoradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarMoradorActionPerformed
+        // TODO add your handling code here:
+        int linhaSelecionada = jTableMoradores.getSelectedRow();
+        if (linhaSelecionada >= 0) {
+            // Obtém os dados da linha selecionada
+            int id = (int) jTableMoradores.getValueAt(linhaSelecionada, 0);
+            String nome = (String) jTableMoradores.getValueAt(linhaSelecionada, 1);
+            int idade = (int) jTableMoradores.getValueAt(linhaSelecionada, 2);
+            String rg = (String) jTableMoradores.getValueAt(linhaSelecionada, 3);
+            String cpf = (String) jTableMoradores.getValueAt(linhaSelecionada, 4);
+
+            Residencia residencia = new Residencia();
+            residencia.setId(residenciaId);
+            Morador moradorEdit = new Morador(residencia, idade, nome, rg, cpf);
+            moradorEdit.setId(id);
+
+            MoradorFormView form = new MoradorFormView(moradorEdit);
+            form.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione um morador na tabela.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditarMoradorActionPerformed
+
+    private void btnExcluirMoradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirMoradorActionPerformed
+        // TODO add your handling code here:
+        int linhaSelecionada = jTableMoradores.getSelectedRow();
+        if (linhaSelecionada >= 0) {
+            // Obtém os dados da linha selecionada
+            int id = (int) jTableMoradores.getValueAt(linhaSelecionada, 0);
+
+            // Confirmação antes de excluir
+            int confirmacao = JOptionPane.showConfirmDialog(
+                    this,
+                    "Tem certeza que deseja excluir este proprietário?\nEssa ação não pode ser desfeita.",
+                    "Confirmação de Exclusão",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirmacao == JOptionPane.YES_OPTION) {
+                if (pc.excluirMorador(id)) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Morador excluído com sucesso.",
+                            "Sucesso",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+
+                } else {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Erro ao excluir morador. Tente novamente.",
+                            "Erro",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Por favor, selecione um morador para excluir.",
+                    "Aviso",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_btnExcluirMoradorActionPerformed
+
+    private void btnExcluirDividaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirDividaActionPerformed
+        // TODO add your handling code here:
+        int linhaSelecionada = jTableDividas.getSelectedRow();
+        if (linhaSelecionada >= 0) {
+            // Obtém os dados da linha selecionada
+            int id = (int) jTableDividas.getValueAt(linhaSelecionada, 0);
+
+            // Confirmação antes de excluir
+            int confirmacao = JOptionPane.showConfirmDialog(
+                    this,
+                    "Tem certeza que deseja excluir dívida?\nEssa ação não pode ser desfeita.",
+                    "Confirmação de Exclusão",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirmacao == JOptionPane.YES_OPTION) {
+                if (mdc.excluirMesDevido(id)) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Dívida excluída com sucesso.",
+                            "Sucesso",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+
+                } else {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Erro ao excluir dívida. Tente novamente.",
+                            "Erro",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Por favor, selecione uma dívida para excluir.",
+                    "Aviso",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_btnExcluirDividaActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        MesDevidoFormView form = new MesDevidoFormView(residenciaId);
+        form.setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -372,13 +535,13 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEditarMorador;
     private javax.swing.JButton btnEditarProprietario;
+    private javax.swing.JButton btnExcluirDivida;
+    private javax.swing.JButton btnExcluirMorador;
     private javax.swing.JButton btnExcluirProprietario;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton btnNovoMorador;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

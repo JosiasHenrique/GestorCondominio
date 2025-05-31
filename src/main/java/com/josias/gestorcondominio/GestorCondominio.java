@@ -6,5 +6,6 @@ public class GestorCondominio {
 
     public static void main(String[] args) {
         new HomeView().setVisible(true);
+     
     }
 }

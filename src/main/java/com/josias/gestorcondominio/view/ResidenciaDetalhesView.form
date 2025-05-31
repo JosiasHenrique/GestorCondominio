@@ -31,14 +31,14 @@
                           <Group type="102" attributes="0">
                               <Component id="jButton6" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton7" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnExcluirDivida" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnNovoMorador" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnEditarMorador" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton5" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnExcluirMorador" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
@@ -127,10 +127,10 @@
               <Component id="jScrollPane1" min="-2" pref="190" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButton3" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnEditarMorador" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnNovoMorador" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnExcluirMorador" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -140,7 +140,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButton6" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton7" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnExcluirDivida" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="33" max="32767" attributes="0"/>
           </Group>
@@ -311,30 +311,45 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarProprietarioActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
+    <Component class="javax.swing.JButton" name="btnEditarMorador">
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar Morador"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarMoradorActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton4">
+    <Component class="javax.swing.JButton" name="btnNovoMorador">
       <Properties>
         <Property name="text" type="java.lang.String" value="Novo Morador"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNovoMoradorActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton5">
+    <Component class="javax.swing.JButton" name="btnExcluirMorador">
       <Properties>
         <Property name="text" type="java.lang.String" value="Excluir Morador"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirMoradorActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton6">
       <Properties>
         <Property name="text" type="java.lang.String" value="Nova D&#xed;vida"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton6ActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton7">
+    <Component class="javax.swing.JButton" name="btnExcluirDivida">
       <Properties>
         <Property name="text" type="java.lang.String" value="Excluir D&#xed;vida"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirDividaActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -5,31 +5,30 @@
 package com.josias.gestorcondominio.view;
 
 import com.josias.gestorcondominio.controller.PessoaController;
-import com.josias.gestorcondominio.model.Proprietario;
+import com.josias.gestorcondominio.model.Morador;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author JosiasHenrique
  */
-public class ProprietarioFormView extends javax.swing.JFrame {
-    
+public class MoradorFormView extends javax.swing.JFrame {
+
     private final PessoaController pc = PessoaController.getInstancia();
-    private Proprietario proprietario = new Proprietario();
+    Morador morador = new Morador();
 
     /**
-     * Creates new form ProprietarioFormView
+     * Creates new form MoradorFormView
      */
-    public ProprietarioFormView() {
+    public MoradorFormView(Morador morador) {
         initComponents();
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-    }
+        this.morador = morador;
 
-    public ProprietarioFormView(Proprietario proprietario) {
-        initComponents();
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        this.proprietario = proprietario;
-        carregarDados();
+        //Evitar de carregar idade setada com 0 em caso de novo Morador
+        if (morador.getIdade() != 0) {
+            carregarDados();
+        }
     }
 
     /**
@@ -53,18 +52,6 @@ public class ProprietarioFormView extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        txtIdade.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdadeActionPerformed(evt);
-            }
-        });
-
-        txtRg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRgActionPerformed(evt);
-            }
-        });
 
         jLabel1.setText("Nome");
 
@@ -93,24 +80,24 @@ public class ProprietarioFormView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtCpf)
+                    .addComponent(jLabel4)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel2)
                     .addComponent(jLabel1)
                     .addComponent(txtNome)
+                    .addComponent(jLabel2)
                     .addComponent(txtIdade)
                     .addComponent(txtRg)
-                    .addComponent(jLabel4)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addGap(34, 34, 34)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -120,51 +107,50 @@ public class ProprietarioFormView extends javax.swing.JFrame {
                 .addComponent(txtIdade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(7, 7, 7)
                 .addComponent(txtRg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
+                .addGap(34, 34, 34)
                 .addComponent(btnSalvar)
                 .addGap(18, 18, 18)
                 .addComponent(btnCancelar)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtIdadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdadeActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdadeActionPerformed
-
-    private void txtRgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRgActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtRgActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
         try {
-            proprietario.setNome(txtNome.getText());
-            proprietario.setIdade(Integer.parseInt(txtIdade.getText()));
-            proprietario.setRg(txtRg.getText());
-            proprietario.setCpf(txtCpf.getText());
+            morador.setNome(txtNome.getText());
+            morador.setIdade(Integer.parseInt(txtIdade.getText()));
+            morador.setRg(txtRg.getText());
+            morador.setCpf(txtCpf.getText());  
 
-            if (proprietario.getId() != 0) {
-                if (pc.atualizarProprietario(proprietario)) {
-                    JOptionPane.showMessageDialog(this, "Proprietário atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("Id do morador:"+ morador.getId());
+            
+            if (morador.getId() != 0) {
+                if (pc.atualizarMorador(morador)) {
+                    JOptionPane.showMessageDialog(this, "Morador atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Falha ao atualizar o proprietário. Tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Falha ao atualizar o morador. Tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                if (pc.inserirProprietario(proprietario)) {
-                    JOptionPane.showMessageDialog(this, "Proprietário inserido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                if (pc.inserirMorador(morador)) {
+                    JOptionPane.showMessageDialog(this, "Morador inserido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Falha ao inserir o proprietário. Tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Falha ao inserir o morador. Tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
 
@@ -173,13 +159,7 @@ public class ProprietarioFormView extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro inesperado: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_btnSalvarActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,29 +178,30 @@ public class ProprietarioFormView extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProprietarioFormView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MoradorFormView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProprietarioFormView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MoradorFormView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProprietarioFormView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MoradorFormView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProprietarioFormView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MoradorFormView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the form 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProprietarioFormView().setVisible(true);
+                new MoradorFormView().setVisible(true);
             }
         });
+         */
     }
 
     private void carregarDados() {
-        txtNome.setText(proprietario.getNome());
-        txtIdade.setText(String.valueOf(proprietario.getIdade()));
-        txtRg.setText(proprietario.getRg());
-        txtCpf.setText(proprietario.getCpf());
+        txtNome.setText(morador.getNome());
+        txtIdade.setText(String.valueOf(morador.getIdade()));
+        txtRg.setText(morador.getRg());
+        txtCpf.setText(morador.getCpf());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
