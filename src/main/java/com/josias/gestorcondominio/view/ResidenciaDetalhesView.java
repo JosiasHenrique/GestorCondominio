@@ -6,10 +6,12 @@ package com.josias.gestorcondominio.view;
 
 import com.josias.gestorcondominio.controller.MesDevidoController;
 import com.josias.gestorcondominio.controller.PessoaController;
+import com.josias.gestorcondominio.controller.ResidenciaController;
 import com.josias.gestorcondominio.model.MesDevido;
 import com.josias.gestorcondominio.model.Morador;
 import com.josias.gestorcondominio.model.Proprietario;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 public class ResidenciaDetalhesView extends javax.swing.JFrame {
 
     private int residenciaId;
+    private Proprietario proprietario = new Proprietario();
     PessoaController pc = new PessoaController();
     MesDevidoController mdc = new MesDevidoController();
 
@@ -28,6 +31,7 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame {
     public ResidenciaDetalhesView(int residenciaId) {
         this.residenciaId = residenciaId;
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         obterProprietario();
         carregarMoradores();
         carregarDividas();
@@ -58,8 +62,8 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame {
         jTableDividas = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         totalDividas = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnExcluirProprietario = new javax.swing.JButton();
+        btnEditarProprietario = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -124,9 +128,19 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame {
 
         jLabel7.setText("Total de Dívidas");
 
-        jButton1.setText("Excluir Proprietário");
+        btnExcluirProprietario.setText("Excluir Proprietário");
+        btnExcluirProprietario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirProprietarioActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Editar Proprietário");
+        btnEditarProprietario.setText("Editar Proprietário");
+        btnEditarProprietario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarProprietarioActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Editar Morador");
 
@@ -182,9 +196,9 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lbRG))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(btnExcluirProprietario)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2)))
+                                .addComponent(btnEditarProprietario)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -216,8 +230,8 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame {
                     .addComponent(lbCPF))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnExcluirProprietario)
+                    .addComponent(btnEditarProprietario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -241,6 +255,29 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEditarProprietarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarProprietarioActionPerformed
+        // TODO add your handling code here:
+        ProprietarioFormView formView = new ProprietarioFormView(proprietario);
+        formView.setVisible(true);
+    }//GEN-LAST:event_btnEditarProprietarioActionPerformed
+
+    private void btnExcluirProprietarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirProprietarioActionPerformed
+        // TODO add your handling code here:
+        int confirmacao = JOptionPane.showConfirmDialog(this,
+                "Tem certeza que deseja excluir este proprietário?\nEssa ação não pode ser desfeita.",
+                "Confirmação",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            if (pc.excluirProprietario(proprietario.getId())) {
+                JOptionPane.showMessageDialog(this, "Proprietário excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Falha ao excluir o proprietário. Tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnExcluirProprietarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,11 +316,19 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame {
     }
 
     private void obterProprietario() {
-        Proprietario p = pc.obterProprietarioPorResidencia(residenciaId);
-        lbProprietario.setText(p.getNome());
-        lbIdade.setText(String.valueOf(p.getIdade()) + " anos");
-        lbRG.setText(p.getRg());
-        lbCPF.setText(p.getCpf());
+        proprietario = pc.obterProprietarioPorResidencia(residenciaId);
+
+        if (proprietario != null) {
+            lbProprietario.setText(proprietario.getNome());
+            lbIdade.setText(proprietario.getIdade() + " anos");
+            lbRG.setText(proprietario.getRg());
+            lbCPF.setText(proprietario.getCpf());
+        } else {
+            lbProprietario.setText("Não informado");
+            lbIdade.setText("N/A");
+            lbRG.setText("N/A");
+            lbCPF.setText("N/A");
+        }
     }
 
     private void carregarMoradores() {
@@ -311,14 +356,14 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame {
             Object[] linha = {m.getId(), m.getMes(), m.getAno(), m.getValor()};
             modelo.addRow(linha);
         }
-        
+
         totalDividas.setText(String.valueOf(somaTotal));
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnEditarProprietario;
+    private javax.swing.JButton btnExcluirProprietario;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

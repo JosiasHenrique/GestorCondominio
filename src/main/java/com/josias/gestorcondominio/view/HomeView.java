@@ -1,17 +1,19 @@
 package com.josias.gestorcondominio.view;
 
 import com.josias.gestorcondominio.controller.ResidenciaController;
+import com.josias.gestorcondominio.model.Observer;
 import com.josias.gestorcondominio.model.Residencia;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class HomeView extends javax.swing.JFrame {
+public class HomeView extends javax.swing.JFrame implements Observer {
 
-    ResidenciaController rc = new ResidenciaController();
+    private final ResidenciaController rc = ResidenciaController.getInstancia();
 
     public HomeView() {
         initComponents();
+        rc.registrarObservador(this);
         carregarMoradores();
     }
 
@@ -205,7 +207,7 @@ public class HomeView extends javax.swing.JFrame {
                             "Sucesso",
                             JOptionPane.INFORMATION_MESSAGE
                     );
-                    
+
                 } else {
                     JOptionPane.showMessageDialog(
                             this,
@@ -271,7 +273,6 @@ public class HomeView extends javax.swing.JFrame {
         for (Residencia r : residencias) {
             Object[] linha = {r.getId(), r.getRua(), r.getNumero(), r.getCep()};
             modelo.addRow(linha);
-            System.out.println(r.getId());
         }
     }
 
@@ -287,4 +288,11 @@ public class HomeView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void atualizar() {
+        System.out.println("Notificando observers...");
+        carregarMoradores();
+    }
+
 }

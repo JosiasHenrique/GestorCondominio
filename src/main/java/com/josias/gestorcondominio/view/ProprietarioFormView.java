@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 public class ProprietarioFormView extends javax.swing.JFrame {
 
     PessoaController pc = new PessoaController();
+    Proprietario proprietario = new Proprietario();
 
     /**
      * Creates new form ProprietarioFormView
@@ -22,6 +23,13 @@ public class ProprietarioFormView extends javax.swing.JFrame {
     public ProprietarioFormView() {
         initComponents();
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
+    public ProprietarioFormView(Proprietario proprietario) {
+        initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        this.proprietario = proprietario;
+        carregarDados();
     }
 
     /**
@@ -74,6 +82,11 @@ public class ProprietarioFormView extends javax.swing.JFrame {
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,20 +146,28 @@ public class ProprietarioFormView extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
-        Proprietario p = new Proprietario();
-
         try {
-            p.setNome(txtNome.getText());
-            p.setIdade(Integer.parseInt(txtIdade.getText()));
-            p.setRg(txtRg.getText());
-            p.setCpf(txtCpf.getText());
+            proprietario.setNome(txtNome.getText());
+            proprietario.setIdade(Integer.parseInt(txtIdade.getText()));
+            proprietario.setRg(txtRg.getText());
+            proprietario.setCpf(txtCpf.getText());
 
-            if (pc.inserirProprietario(p)) {
-                JOptionPane.showMessageDialog(this, "Proprietário inserido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
+            if (proprietario.getId() != 0) {
+                if (pc.atualizarProprietario(proprietario)) {
+                    JOptionPane.showMessageDialog(this, "Proprietário atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Falha ao atualizar o proprietário. Tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "Falha ao inserir o proprietário. Tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                if (pc.inserirProprietario(proprietario)) {
+                    JOptionPane.showMessageDialog(this, "Proprietário inserido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Falha ao inserir o proprietário. Tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
             }
+
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Idade inválida. Por favor, insira um número válido.", "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
@@ -154,6 +175,11 @@ public class ProprietarioFormView extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,6 +214,13 @@ public class ProprietarioFormView extends javax.swing.JFrame {
                 new ProprietarioFormView().setVisible(true);
             }
         });
+    }
+
+    private void carregarDados() {
+        txtNome.setText(proprietario.getNome());
+        txtIdade.setText(String.valueOf(proprietario.getIdade()));
+        txtRg.setText(proprietario.getRg());
+        txtCpf.setText(proprietario.getCpf());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
