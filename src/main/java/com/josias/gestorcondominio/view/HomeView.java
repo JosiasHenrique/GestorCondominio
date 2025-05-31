@@ -24,9 +24,10 @@ public class HomeView extends javax.swing.JFrame {
         btnVerDetalhes = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnNovaResidencia = new javax.swing.JButton();
+        btnNovoProprietario = new javax.swing.JButton();
+        btnExcluirResidencia = new javax.swing.JButton();
+        btnEditarResidencia = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,11 +63,33 @@ public class HomeView extends javax.swing.JFrame {
 
         jLabel2.setText("Gestor de Condomínio");
 
-        jButton1.setText("Nova Residencia");
+        btnNovaResidencia.setText("Nova Residencia");
+        btnNovaResidencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovaResidenciaActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Novo Proprietário");
+        btnNovoProprietario.setText("Novo Proprietário");
+        btnNovoProprietario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoProprietarioActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Excluir Residencia");
+        btnExcluirResidencia.setText("Excluir Residencia");
+        btnExcluirResidencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirResidenciaActionPerformed(evt);
+            }
+        });
+
+        btnEditarResidencia.setText("Editar Residencia");
+        btnEditarResidencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarResidenciaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -79,19 +102,20 @@ public class HomeView extends javax.swing.JFrame {
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnVerDetalhes)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnExcluirResidencia))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(btnNovaResidencia)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnVerDetalhes)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton3))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btnEditarResidencia)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnNovoProprietario)))))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -101,15 +125,16 @@ public class HomeView extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnNovaResidencia)
+                    .addComponent(btnNovoProprietario)
+                    .addComponent(btnEditarResidencia))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVerDetalhes)
                     .addComponent(jLabel1)
-                    .addComponent(jButton3))
+                    .addComponent(btnExcluirResidencia))
                 .addGap(57, 57, 57))
         );
 
@@ -132,6 +157,78 @@ public class HomeView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Por favor, selecione uma residência na tabela para ver os detalhes.", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnVerDetalhesActionPerformed
+
+    private void btnNovaResidenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaResidenciaActionPerformed
+        // TODO add your handling code here:
+        ResidenciaFormView form = new ResidenciaFormView();
+        form.setVisible(true);
+    }//GEN-LAST:event_btnNovaResidenciaActionPerformed
+
+    private void btnEditarResidenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarResidenciaActionPerformed
+        // TODO add your handling code here:
+        int linhaSelecionada = jTable.getSelectedRow();
+        if (linhaSelecionada >= 0) {
+            // Obtém os dados da linha selecionada
+            int id = (int) jTable.getValueAt(linhaSelecionada, 0);
+            String rua = (String) jTable.getValueAt(linhaSelecionada, 1);
+            int numero = (int) jTable.getValueAt(linhaSelecionada, 2);
+            String cep = (String) jTable.getValueAt(linhaSelecionada, 3);
+
+            // Passa os dados para o formulário
+            ResidenciaFormView form = new ResidenciaFormView(id, rua, numero, cep);
+            form.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione uma residência na tabela.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditarResidenciaActionPerformed
+
+    private void btnExcluirResidenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirResidenciaActionPerformed
+        // TODO add your handling code here:
+        int linhaSelecionada = jTable.getSelectedRow();
+        if (linhaSelecionada >= 0) {
+            // Obtém os dados da linha selecionada
+            int id = (int) jTable.getValueAt(linhaSelecionada, 0);
+
+            // Confirmação antes de excluir
+            int confirmacao = JOptionPane.showConfirmDialog(
+                    this,
+                    "Tem certeza que deseja excluir esta residência? Isso também removerá todas as dívidas associadas a ela.",
+                    "Confirmação de Exclusão",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirmacao == JOptionPane.YES_OPTION) {
+                if (rc.excluirResidencia(id)) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Residência excluída com sucesso.",
+                            "Sucesso",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                    
+                } else {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Erro ao excluir a residência. Tente novamente.",
+                            "Erro",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Por favor, selecione uma residência para excluir.",
+                    "Aviso",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_btnExcluirResidenciaActionPerformed
+
+    private void btnNovoProprietarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoProprietarioActionPerformed
+        // TODO add your handling code here:
+        new ProprietarioFormView().setVisible(true);
+    }//GEN-LAST:event_btnNovoProprietarioActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -180,10 +277,11 @@ public class HomeView extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEditarResidencia;
+    private javax.swing.JButton btnExcluirResidencia;
+    private javax.swing.JButton btnNovaResidencia;
+    private javax.swing.JButton btnNovoProprietario;
     private javax.swing.JButton btnVerDetalhes;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
