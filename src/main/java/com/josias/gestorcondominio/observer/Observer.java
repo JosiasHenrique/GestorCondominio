@@ -1,4 +1,4 @@
-package com.josias.gestorcondominio.model;
+package com.josias.gestorcondominio.observer;
 
 
 public interface Observer {

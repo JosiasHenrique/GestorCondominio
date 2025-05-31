@@ -1,7 +1,7 @@
 package com.josias.gestorcondominio.view;
 
 import com.josias.gestorcondominio.controller.ResidenciaController;
-import com.josias.gestorcondominio.model.Observer;
+import com.josias.gestorcondominio.observer.Observer;
 import com.josias.gestorcondominio.model.Residencia;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -291,7 +291,6 @@ public class HomeView extends javax.swing.JFrame implements Observer {
 
     @Override
     public void atualizar() {
-        System.out.println("Notificando observers...");
         carregarMoradores();
     }
 

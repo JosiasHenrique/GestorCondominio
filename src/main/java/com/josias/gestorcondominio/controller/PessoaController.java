@@ -5,18 +5,30 @@ import com.josias.gestorcondominio.dao.PessoaDAOImpl;
 import com.josias.gestorcondominio.model.Morador;
 import com.josias.gestorcondominio.model.Pessoa;
 import com.josias.gestorcondominio.model.Proprietario;
+import com.josias.gestorcondominio.observer.Observer;
+import com.josias.gestorcondominio.observer.Subject;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PessoaController {
+public class PessoaController implements Subject {
 
+    private static PessoaController instancia;
+    private final List<Observer> observers = new ArrayList<>();
     private final PessoaDAO pessoaDAO;
     private static final Logger logger = Logger.getLogger(PessoaController.class.getName());
 
-    public PessoaController() {
+    private PessoaController() {
         this.pessoaDAO = new PessoaDAOImpl();
+    }
+
+    public static PessoaController getInstancia() {
+        if (instancia == null) {
+            instancia = new PessoaController();
+        }
+        return instancia;
     }
 
     public boolean inserirProprietario(Proprietario p) {
@@ -33,7 +45,12 @@ public class PessoaController {
             logger.log(Level.WARNING, "Idade mínima é 18 anos. IDade informada: {0}", p.getIdade());
             return false;
         }
-        return pessoaDAO.inserirProprietario(p);
+
+        boolean sucesso = pessoaDAO.inserirProprietario(p);
+        if (sucesso) {
+            notificarObservers();
+        }
+        return sucesso;
     }
 
     public boolean atualizarProprietario(Proprietario p) {
@@ -49,7 +66,11 @@ public class PessoaController {
             return false;
         }
 
-        return pessoaDAO.atualizarProprietario(p);
+        boolean sucesso = pessoaDAO.atualizarProprietario(p);
+        if (sucesso) {
+            notificarObservers();
+        }
+        return sucesso;
     }
 
     public boolean excluirProprietario(int idProprietario) {
@@ -58,7 +79,12 @@ public class PessoaController {
             logger.log(Level.WARNING, "ID de proprietário inválido: {0}", idProprietario);
             return false;
         }
-        return pessoaDAO.excluirProprietario(idProprietario);
+
+        boolean sucesso = pessoaDAO.excluirProprietario(idProprietario);
+        if (sucesso) {
+            notificarObservers();
+        }
+        return sucesso;
     }
 
     public boolean inserirMorador(Morador m) {
@@ -71,7 +97,11 @@ public class PessoaController {
             logger.log(Level.WARNING, "Dados obrigatórios faltando (nome, cpf, rg) ou residência inválida.");
             return false;
         }
-        return pessoaDAO.inserirMorador(m);
+        boolean sucesso = pessoaDAO.inserirMorador(m);
+        if (sucesso) {
+            notificarObservers();
+        }
+        return sucesso;
     }
 
     public boolean atualizarMorador(Morador m) {
@@ -81,7 +111,11 @@ public class PessoaController {
             logger.log(Level.WARNING, "Dados obrigatórios faltando (nome, cpf, rg) ou residência inválida.");
             return false;
         }
-        return pessoaDAO.atualizarMorador(m);
+        boolean sucesso = pessoaDAO.atualizarMorador(m);
+        if (sucesso) {
+            notificarObservers();
+        }
+        return sucesso;
     }
 
     public List<Morador> listarMoradoresPorResidencia(int residenciaId) {
@@ -98,7 +132,11 @@ public class PessoaController {
             logger.log(Level.WARNING, "ID de proprietário inválido: {0}", idMorador);
             return false;
         }
-        return pessoaDAO.excluirMorador(idMorador);
+        boolean sucesso = pessoaDAO.excluirMorador(idMorador);;
+        if (sucesso) {
+            notificarObservers();
+        }
+        return sucesso;
     }
 
     public Proprietario obterProprietarioPorResidencia(int residenciaId) {
@@ -115,6 +153,23 @@ public class PessoaController {
             return Collections.emptyList();
         }
         return pessoaDAO.listarPessoas(tipo);
+    }
+
+    @Override
+    public void registrarObservador(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removerObservador(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notificarObservers() {
+        for (Observer o : observers) {
+            o.atualizar();
+        }
     }
 
 }

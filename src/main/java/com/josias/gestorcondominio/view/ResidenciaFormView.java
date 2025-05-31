@@ -23,7 +23,7 @@ public class ResidenciaFormView extends javax.swing.JFrame {
      * Creates new form ResidenciaForm
      */
     ResidenciaController rc = ResidenciaController.getInstancia();
-    PessoaController pc = new PessoaController();
+    PessoaController pc = PessoaController.getInstancia();
 
     private int id, numero;
     private String rua, cep;
@@ -36,6 +36,7 @@ public class ResidenciaFormView extends javax.swing.JFrame {
 
     public ResidenciaFormView(int id, String rua, int numero, String cep) {
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         this.id = id;
         this.rua = rua;
         this.numero = numero;

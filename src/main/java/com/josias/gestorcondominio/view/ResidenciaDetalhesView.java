@@ -6,10 +6,10 @@ package com.josias.gestorcondominio.view;
 
 import com.josias.gestorcondominio.controller.MesDevidoController;
 import com.josias.gestorcondominio.controller.PessoaController;
-import com.josias.gestorcondominio.controller.ResidenciaController;
 import com.josias.gestorcondominio.model.MesDevido;
 import com.josias.gestorcondominio.model.Morador;
 import com.josias.gestorcondominio.model.Proprietario;
+import com.josias.gestorcondominio.observer.Observer;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,11 +18,11 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author JosiasHenrique
  */
-public class ResidenciaDetalhesView extends javax.swing.JFrame {
+public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observer {
 
     private int residenciaId;
     private Proprietario proprietario = new Proprietario();
-    PessoaController pc = new PessoaController();
+    PessoaController pc = PessoaController.getInstancia();
     MesDevidoController mdc = new MesDevidoController();
 
     /**
@@ -31,6 +31,7 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame {
     public ResidenciaDetalhesView(int residenciaId) {
         this.residenciaId = residenciaId;
         initComponents();
+        pc.registrarObservador(this);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         obterProprietario();
         carregarMoradores();
@@ -258,6 +259,15 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame {
 
     private void btnEditarProprietarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarProprietarioActionPerformed
         // TODO add your handling code here:
+        if (proprietario == null) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Não existe proprietário para ser editado",
+                    "Aviso",
+                    javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
         ProprietarioFormView formView = new ProprietarioFormView(proprietario);
         formView.setVisible(true);
     }//GEN-LAST:event_btnEditarProprietarioActionPerformed
@@ -386,4 +396,11 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame {
     private javax.swing.JLabel lbRG;
     private javax.swing.JLabel totalDividas;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void atualizar() {
+        obterProprietario();
+        carregarMoradores();
+        carregarDividas();
+    }
 }

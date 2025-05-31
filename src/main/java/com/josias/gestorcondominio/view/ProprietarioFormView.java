@@ -13,8 +13,8 @@ import javax.swing.JOptionPane;
  * @author JosiasHenrique
  */
 public class ProprietarioFormView extends javax.swing.JFrame {
-
-    PessoaController pc = new PessoaController();
+    
+    private final PessoaController pc = PessoaController.getInstancia();
     Proprietario proprietario = new Proprietario();
 
     /**

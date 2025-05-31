@@ -1,6 +1,4 @@
-package com.josias.gestorcondominio.model;
-
-import com.josias.gestorcondominio.model.Observer;
+package com.josias.gestorcondominio.observer;
 
 public interface Subject {
     
