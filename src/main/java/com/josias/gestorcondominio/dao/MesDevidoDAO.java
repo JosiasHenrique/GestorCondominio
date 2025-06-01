@@ -12,11 +12,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MesDevidoDAOImpl implements MesDevidoDAO {
+public class MesDevidoDAO {
 
-    private static final Logger logger = Logger.getLogger(MesDevidoDAOImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(MesDevidoDAO.class.getName());
 
-    @Override
     public boolean inserirMesDevido(MesDevido mesDevido) {
         String sql = "INSERT INTO mes_devido (residencia_id, mes, ano, valor) VALUES (?, ?, ?, ?)";
         
@@ -36,7 +35,6 @@ public class MesDevidoDAOImpl implements MesDevidoDAO {
         }
     }
 
-    @Override
     public boolean excluirMesDevido(int id) {
         String sql = "DELETE FROM mes_devido WHERE id = ?";
         
@@ -52,7 +50,6 @@ public class MesDevidoDAOImpl implements MesDevidoDAO {
         }
     }
 
-    @Override
     public List<MesDevido> listarMesesDevidosPorResidencia(int residenciaId) {
         String sql = "SELECT id, residencia_id, mes, ano, valor FROM mes_devido WHERE residencia_id = ?";
         List<MesDevido> mesesDevidos = new ArrayList<>();

@@ -1,7 +1,7 @@
 package com.josias.gestorcondominio.controller;
 
 import com.josias.gestorcondominio.dao.MesDevidoDAO;
-import com.josias.gestorcondominio.dao.MesDevidoDAOImpl;
+import com.josias.gestorcondominio.dao.MesDevidoDAO;
 import com.josias.gestorcondominio.model.MesDevido;
 import com.josias.gestorcondominio.observer.Observer;
 import com.josias.gestorcondominio.observer.Subject;
@@ -19,7 +19,7 @@ public class MesDevidoController implements Subject {
     private static final Logger logger = Logger.getLogger(MesDevidoController.class.getName());
 
     private MesDevidoController() {
-        this.mesDevidoDAO = new MesDevidoDAOImpl();
+        this.mesDevidoDAO = new MesDevidoDAO();
     }
 
     public static MesDevidoController getInstancia() {

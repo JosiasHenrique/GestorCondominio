@@ -21,7 +21,7 @@ CREATE TABLE Residencia (
 );
 
 ALTER TABLE Pessoa ADD COLUMN residencia_id INT NULL,
-ADD CONSTRAINT FK_Pessoa_Residencia FOREIGN KEY (residencia_id) REFERENCES Residencia(id) ON DELETE SET NULL;
+ADD CONSTRAINT FK_Pessoa_Residencia FOREIGN KEY (residencia_id) REFERENCES Residencia(id) ON DELETE CASCADE;
 
 CREATE TABLE mes_devido (
     id INT AUTO_INCREMENT PRIMARY KEY,

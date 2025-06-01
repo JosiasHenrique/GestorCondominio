@@ -194,7 +194,7 @@ public class HomeView extends javax.swing.JFrame implements Observer {
             // Confirmação antes de excluir
             int confirmacao = JOptionPane.showConfirmDialog(
                     this,
-                    "Tem certeza que deseja excluir esta residência? Isso também removerá todas as dívidas associadas a ela.",
+                    "Tem certeza que deseja excluir esta residência? Isso também removerá todas as dívidas e moradores associadas a ela.",
                     "Confirmação de Exclusão",
                     JOptionPane.YES_NO_OPTION
             );

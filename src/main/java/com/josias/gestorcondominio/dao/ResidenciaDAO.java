@@ -12,11 +12,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ResidenciaDAOImpl implements ResidenciaDAO {
+public class ResidenciaDAO {
 
-    private static final Logger logger = Logger.getLogger(ResidenciaDAOImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(ResidenciaDAO.class.getName());
 
-    @Override
     public boolean inserirResidencia(Residencia residencia) {
 
         int idProprietario = residencia.getProprietario().getId();
@@ -38,7 +37,6 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
         }
     }
 
-    @Override
     public List<Residencia> findAllResidencias() {
         String sql = "SELECT id, rua, numero, cep, proprietario_id FROM Residencia";
         List<Residencia> residencias = new ArrayList<>();
@@ -70,7 +68,6 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
         return residencias;
     }
 
-    @Override
     public boolean atualizarResidencia(Residencia residencia) {
         String sql = "UPDATE Residencia SET rua = ?, numero = ?, cep = ?, proprietario_id = ? WHERE id = ?";
         try (Connection conn = ConnectionManager.getInstance().getConnection();
@@ -90,7 +87,6 @@ public class ResidenciaDAOImpl implements ResidenciaDAO {
         }
     }
 
-    @Override
     public boolean excluirResidencia(int idResidencia) {
         String sql = "DELETE FROM Residencia WHERE id = ?";
         

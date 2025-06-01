@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observer {
 
     private int residenciaId;
+    private boolean ordemAscendente = true;
     private Proprietario proprietario = new Proprietario();
     PessoaController pc = PessoaController.getInstancia();
     MesDevidoController mdc = MesDevidoController.getInstancia();
@@ -70,8 +71,9 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
         btnEditarMorador = new javax.swing.JButton();
         btnNovoMorador = new javax.swing.JButton();
         btnExcluirMorador = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnNovaDivida = new javax.swing.JButton();
         btnExcluirDivida = new javax.swing.JButton();
+        btnOrdenar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -166,10 +168,10 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
             }
         });
 
-        jButton6.setText("Nova Dívida");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnNovaDivida.setText("Nova Dívida");
+        btnNovaDivida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnNovaDividaActionPerformed(evt);
             }
         });
 
@@ -177,6 +179,13 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
         btnExcluirDivida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirDividaActionPerformed(evt);
+            }
+        });
+
+        btnOrdenar.setText("Asc/Desc");
+        btnOrdenar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdenarActionPerformed(evt);
             }
         });
 
@@ -190,7 +199,7 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton6)
+                                .addComponent(btnNovaDivida)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnExcluirDivida))
                             .addGroup(layout.createSequentialGroup()
@@ -204,7 +213,7 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
                                 .addComponent(jLabel6)
                                 .addComponent(jScrollPane2)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(11, Short.MAX_VALUE))
+                        .addContainerGap(22, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -229,11 +238,15 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
                                 .addComponent(btnEditarProprietario)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(totalDividas)
-                                .addGap(24, 24, 24))
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(85, 85, 85))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(totalDividas)
+                                    .addGap(24, 24, 24))
+                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(59, 59, 59)
+                                .addComponent(btnOrdenar)))
+                        .addGap(34, 34, 34))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,8 +273,10 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExcluirProprietario)
                     .addComponent(btnEditarProprietario))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(btnOrdenar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -276,9 +291,9 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
+                    .addComponent(btnNovaDivida)
                     .addComponent(btnExcluirDivida))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -446,11 +461,16 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
         }
     }//GEN-LAST:event_btnExcluirDividaActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btnNovaDividaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaDividaActionPerformed
         // TODO add your handling code here:
         MesDevidoFormView form = new MesDevidoFormView(residenciaId);
         form.setVisible(true);
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btnNovaDividaActionPerformed
+
+    private void btnOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarActionPerformed
+        // TODO add your handling code here:
+        carregarMoradores();
+    }//GEN-LAST:event_btnOrdenarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -507,6 +527,11 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
     private void carregarMoradores() {
         List<Morador> moradores = pc.listarMoradoresPorResidencia(residenciaId);
 
+        moradores.sort((m1, m2)
+                -> ordemAscendente ? m1.getNome().compareToIgnoreCase(m2.getNome())
+                        : m2.getNome().compareToIgnoreCase(m1.getNome())
+        );
+
         DefaultTableModel modelo = (DefaultTableModel) jTableMoradores.getModel();
 
         modelo.setRowCount(0);
@@ -515,6 +540,7 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
             Object[] linha = {m.getId(), m.getNome(), m.getIdade(), m.getRg(), m.getCpf()};
             modelo.addRow(linha);
         }
+        ordemAscendente = !ordemAscendente;
     }
 
     private void carregarDividas() {
@@ -540,8 +566,9 @@ public class ResidenciaDetalhesView extends javax.swing.JFrame implements Observ
     private javax.swing.JButton btnExcluirDivida;
     private javax.swing.JButton btnExcluirMorador;
     private javax.swing.JButton btnExcluirProprietario;
+    private javax.swing.JButton btnNovaDivida;
     private javax.swing.JButton btnNovoMorador;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton btnOrdenar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

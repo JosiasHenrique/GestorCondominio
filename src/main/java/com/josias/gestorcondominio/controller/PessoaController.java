@@ -1,7 +1,7 @@
 package com.josias.gestorcondominio.controller;
 
 import com.josias.gestorcondominio.dao.PessoaDAO;
-import com.josias.gestorcondominio.dao.PessoaDAOImpl;
+import com.josias.gestorcondominio.dao.PessoaDAO;
 import com.josias.gestorcondominio.model.Morador;
 import com.josias.gestorcondominio.model.Pessoa;
 import com.josias.gestorcondominio.model.Proprietario;
@@ -21,7 +21,7 @@ public class PessoaController implements Subject {
     private static final Logger logger = Logger.getLogger(PessoaController.class.getName());
 
     private PessoaController() {
-        this.pessoaDAO = new PessoaDAOImpl();
+        this.pessoaDAO = new PessoaDAO();
     }
 
     public static PessoaController getInstancia() {

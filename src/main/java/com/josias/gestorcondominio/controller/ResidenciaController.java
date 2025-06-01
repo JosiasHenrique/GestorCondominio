@@ -1,7 +1,6 @@
 package com.josias.gestorcondominio.controller;
 
 import com.josias.gestorcondominio.dao.ResidenciaDAO;
-import com.josias.gestorcondominio.dao.ResidenciaDAOImpl;
 import com.josias.gestorcondominio.model.Residencia;
 import com.josias.gestorcondominio.observer.Subject;
 import com.josias.gestorcondominio.observer.Observer;
@@ -19,7 +18,7 @@ public class ResidenciaController implements Subject {
     private final List<Observer> observers = new ArrayList<>();
 
     private ResidenciaController() {
-        this.residenciaDAO = new ResidenciaDAOImpl();
+        this.residenciaDAO = new ResidenciaDAO();
     }
 
   

@@ -14,11 +14,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PessoaDAOImpl implements PessoaDAO {
+public class PessoaDAO {
 
-    private static final Logger logger = Logger.getLogger(PessoaDAOImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(PessoaDAO.class.getName());
 
-    @Override
     public boolean inserirProprietario(Proprietario proprietario) {
         String sql = "INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) "
                 + "VALUES (?, ?, ?, ?, 'Proprietario', NULL)";
@@ -37,7 +36,6 @@ public class PessoaDAOImpl implements PessoaDAO {
         }
     }
 
-    @Override
     public boolean inserirMorador(Morador morador) {
         int residenciaId = morador.getResidencia().getId();
         String sql = "INSERT INTO Pessoa (nome, idade, rg, cpf, tipo, residencia_id) "
@@ -58,7 +56,6 @@ public class PessoaDAOImpl implements PessoaDAO {
         }
     }
 
-    @Override
     public boolean atualizarProprietario(Proprietario proprietario) {
         String sql = "UPDATE Pessoa SET nome = ?, idade = ?, rg = ?, cpf = ? "
                 + "WHERE id = ? AND tipo = 'Proprietario'";
@@ -79,7 +76,6 @@ public class PessoaDAOImpl implements PessoaDAO {
         }
     }
 
-    @Override
     public boolean atualizarMorador(Morador morador) {
         String sql = "UPDATE Pessoa SET nome = ?, idade = ?, rg = ?, cpf = ?, residencia_id = ? "
                 + "WHERE id = ? AND tipo = 'Morador'";
@@ -100,7 +96,6 @@ public class PessoaDAOImpl implements PessoaDAO {
         }
     }
 
-    @Override
     public boolean excluirMorador(int idMorador) {
         String sql = "DELETE FROM Pessoa WHERE id = ? AND tipo = 'Morador'";
 
@@ -115,7 +110,6 @@ public class PessoaDAOImpl implements PessoaDAO {
         }
     }
 
-    @Override
     public boolean excluirProprietario(int idProprietario) {
         String sqlDesvincular = "UPDATE Residencia SET proprietario_id = NULL WHERE proprietario_id = ?";
         String sqlExcluir = "DELETE FROM Pessoa WHERE id = ? AND tipo = 'Proprietario'";
@@ -145,7 +139,6 @@ public class PessoaDAOImpl implements PessoaDAO {
         }
     }
 
-    @Override
     public List<Morador> listarMoradoresPorResidencia(int residenciaId) {
         String sql = "SELECT id, nome, idade, rg, cpf FROM Pessoa WHERE residencia_id = ? AND tipo = 'Morador'";
         List<Morador> moradores = new ArrayList<>();
@@ -171,7 +164,6 @@ public class PessoaDAOImpl implements PessoaDAO {
         return moradores;
     }
 
-    @Override
     public Proprietario obterProprietarioPorResidencia(int residenciaId) {
         String sql = "SELECT p.id, p.idade, p.nome, p.rg, p.cpf "
                 + "FROM Pessoa p "
@@ -199,7 +191,6 @@ public class PessoaDAOImpl implements PessoaDAO {
         return proprietario;
     }
 
-    @Override
     public List<Pessoa> listarPessoas(String tipo) {
         String sql = "SELECT id, nome, idade, rg, cpf, tipo FROM Pessoa WHERE tipo = ?";
         List<Pessoa> pessoas = new ArrayList<>();
